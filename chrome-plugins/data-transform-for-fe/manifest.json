@@ -1,0 +1,18 @@
+{
+    "manifest_version":2,
+    "name":"数据中转站",
+    "description":"数据中转站",
+    "version":"1.0",
+    "icons": {
+        "16": "images/coding.png",
+        "48": "images/coding.png",
+        "128": "images/coding.png"
+    },
+    "background": { "scripts": ["background.js"] },
+    "permissions": ["tabs"],
+    "browser_action":{
+        "default_icon":"images/coding.png",
+        "default_title":"极简二维码",
+        "default_popup":"popup.html"
+    }
+}

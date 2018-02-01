@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>数据中转站</title>
+    <style>
+        #app {
+            max-height: 100%;
+            overflow: scroll;
+            width: 500px;
+        }
+        .text_source, .text_destination {
+            width: 95%;
+            height: 250px;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="transform-base64-container">
+            <div class="title">明文:</div>
+            <textarea name="message" id="base64-source" class="text_source">this is a example</textarea>
+            <div class="OptDetail Button">
+                <button class="btn btn-primary" id="base64-encode-btn" style="margin-bottom:10px;">BASE64编码<i class="icon-chevron-right icon-white"></i></button>
+                <button class="btn btn-primary" id="base64-decode-btn"><i class="icon-chevron-left icon-white"></i>BASE64解码 </button>
+            </div>
+            <div class="title">BASE64:</div>
+            <textarea name="cipher" id="base64-result" class="text_destination"></textarea>
+        </div>
+        <div class="transform-URI-container">
+            <div class="title">明文:</div>
+            <textarea name="message" id="URI-source" class="text_source">http://www.baidu.com</textarea>
+            <div class="OptDetail Button">
+                <button class="btn btn-primary" id="URI-encode-btn" style="margin-bottom:10px;">URI编码<i class="icon-chevron-right icon-white"></i></button>
+                <button class="btn btn-primary" id="URI-decode-btn"><i class="icon-chevron-left icon-white"></i>URI解码 </button>
+            </div>
+            <div class="title">URIComponent:</div>
+            <textarea name="cipher" id="URI-result" class="text_destination"></textarea>
+        </div>
+    </div>
+    <script type="text/javascript" src="./lib/util.js"></script>
+    <script src="popup.js"></script>
+</body>
+</html>

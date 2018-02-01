@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>二维码</title>
+</head>
+<body>
+ <style>
+	#app {
+		max-height: 100%;
+		overflow: scroll;
+	}
+    .btn-blue, .btn {
+        display: inline-block;
+        height: 20px;
+        border: 1px solid #999;
+        line-height: 20px;
+        padding: 0 5px;
+        margin-left: 5px;
+    }
+    .btn-blue {
+        border: 1px solid #99f;
+    }
+    .hidden {
+        visibility: hidden;
+    }
+ </style>
+ <script type="text/javascript" src="./lib/jquery.js"></script>
+ <script type="text/javascript" src="./lib/jquery.qrcode.js"></script>
+ <script type="text/javascript" src="./lib/qrcode.js"></script>
+ <div id="app">
+     <div>
+         <p>正常浏览器<span class="btn-blue hidden">复制成功</span><span class="btn" data-id="web">复制url</span></p>
+         <div id="qrcodeWeb"></div>
+     </div>
+     <div>
+         <p data-id="map">百度地图壳浏览器<span class="btn-blue hidden">复制成功</span><span class="btn" data-id="map">复制url</span></p>
+         <div id="qrcodeMap"></div>
+     </div>
+     <div>
+         <p>百度地图车主壳浏览器<span class="btn-blue hidden">复制成功</span><span class="btn" data-id="carowner">复制url</span></p>
+         <div id="qrcodeCarowner"></div>
+     </div>
+     <div>
+         <p>手机百度轻浏览器<span class="btn-blue hidden">复制成功</span><span class="btn" data-id="shoubai">复制url</span></p>
+         <div id="shoubai"></div>
+     </div>
+     <div>
+         <p>百度糯米浏览器组件版本<span class="btn-blue hidden">复制成功</span><span class="btn" data-id="nuo">复制url</span></p>
+         <div id="qrcodeNuo"></div>
+     </div>
+     <div>
+         <p>百度糯米浏览器web版本<span class="btn-blue hidden">复制成功</span><span class="btn" data-id="nuoweb">复制url</span></p>
+         <div id="qrcodeNuoWeb"></div>
+     </div>
+     <div>
+         <p>百度地图LBC浏览器<span class="btn-blue hidden">复制成功</span><span class="btn" data-id="lbc">复制url</span></p>
+         <div id="qrcodeLbc"></div>
+     </div>
+</div>
+<script src="popup.js"></script>
+</body>
+</html>
