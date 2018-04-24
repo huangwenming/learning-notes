@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>图标修改颜色</title>
+    <style>
+        /*drop-shadow方法修改颜色: 将图标颜色从蓝色 -》红色*/
+        .test-svg-container {
+             overflow: hidden;
+         }
+        .test-svg {
+            position: relative;
+            left: -23px;
+            width: 23px;
+            height: 23px;
+            background: url(./asserts/discount.png) no-repeat;
+            background-size: 23px;
+            -webkit-filter: drop-shadow(#f00 23px 0px);
+            filter: drop-shadow(#f00 23px 0px);
+        }
+    </style>
+</head>
+<body>
+    <div class="test-svg-container">
+        <div class="test-svg"></div>
+    </div>
+</body>
+</html>
