@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>svg图动态修改颜色</title>
+    <style>
+        .test-svg {
+            width: 56px;
+            height: 56px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-svg-container">
+        <svg class="test-svg" fill="#f00" stroke="#f00"><use xlink:href="./asserts/parking-dynamic.svg#test"></use></svg>
+    </div>
+    <script>
+        // 获取目标颜色
+        var container = document.querySelector('.test-svg');
+        var fillColor = container.getAttribute('fill');
+        var strokeColor = container.getAttribute('stroke');
+        // 获取svg的path，并修改path的fill和stroke
+        // 该方法行不通，use标签嵌入svg是创建了一个shadow dom，而我们是不能操作shadow dom内部的节点
+        var paths = document.querySelectorAll('path');
+        for (var i = 0; i < paths.length; i++) {
+            if (paths[i].style.fill !== 'none') {
+                paths[i].style.fill = fillColor;
+            }
+            if (paths[i].style.stroke !== 'none') {
+                paths[i].style.stroke = strokeColor;
+            }
+        }
+    </script>
+</body>
+</html>
