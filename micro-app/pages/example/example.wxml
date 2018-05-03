@@ -1,0 +1,8 @@
+<scroll-view>
+  <view>
+    <button bindtap='showShareMenu'>开启转发菜单功能</button>
+  </view>
+  <view>
+    <button open-type='share'>页面内调起转发</button>
+  </view>
+</scroll-view>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>svg图动态修改颜色</title>
+    <style>
+        img, svg {
+            width: 100px;
+            height: 100px;
+        }
+        .hidden {
+            visibility: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-svg-container">
+        <img src="./asserts/parking-dynamic.svg">
+        <img class="svg hidden" src="./asserts/parking-dynamic.svg">
+    </div>
+    <script>
+        var svgDom = document.querySelector('img.svg');
+        svgDom.addEventListener('load', function () {
+            var imgUrl = svgDom.src;
+            ajaxGet(imgUrl, function (data) {
+                // console.log(data);
+                // 替换颜色
+                var svgStr = data.replace(/#333333/g, '#f00');
+
+                // 替换svgDom
+                svgDom.outerHTML = svgStr;
+            });
+        })
+        function ajaxGet(url, callback) {
+            var XHR = null;
+            if (window.XMLHttpRequest) {
+                XHR = new XMLHttpRequest();
+            } else if (window.ActiveXObject) {
+                XHR = new ActiveXObject("Microsoft.XMLHTTP");
+            } else {
+                XHR = null;
+            }
+            if(XHR){
+                XHR.open("GET", url);
+                XHR.onreadystatechange = function () {
+                    if (XHR.readyState == 4 && XHR.status == 200) {
+                        callback(XHR.responseText);
+                    }
+                }
+                XHR.send();
+            }
+        }
+    </script>
+</body>
+</html>

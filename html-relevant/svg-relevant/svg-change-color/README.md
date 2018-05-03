@@ -17,7 +17,7 @@
 
 **原理: svg是一个dom元素，属性可以继承，通过设定容器元素的fill和stroke属性，可以对内嵌的svg进行颜色修改**
 
-## svg颜色动态修改方法
+## svg颜色动态修改方法(对应svg-dynami1c.html)
 **前提: 如果svg文件中设置了fill、stroke属性; svg不通过引用的形式被调用**
 
 **兼容性：**
@@ -26,4 +26,9 @@
 可以通过获取容器元素的fill和stroke属性，然后赋值给内嵌的svg，最终起到动态修改svg颜色的效果**
 
 
+## svg颜色动态修改方法(对应svg-dynamic2.html)
+**前提: 如果svg文件中设置了fill、stroke属性; svg通过图片src的形式被引用**
 
+**兼容性：**
+
+**原理：通过先隐藏img元素，然后读取svg文件，修改svg中的颜色值，然后构建svg DOM元素，替换img元素并显示，最终起到动态修改svg颜色的效果**
