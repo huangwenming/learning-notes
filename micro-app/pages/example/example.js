@@ -39,5 +39,8 @@ Page({
         console.log('转发失败')
       }
     }
-  }
+  },
+  listenSwiper(e) {
+    console.log('change swipe')
+  },
 })

@@ -5,4 +5,26 @@
   <view>
     <button open-type='share'>页面内调起转发</button>
   </view>
+  <swiper bindchange="listenSwiper" >
+    <!--swiper-item只能包含一个节点再多会自动删除-->
+    <swiper-item>
+        <view style="background: red; height: 100px">滑动切换1</view>
+    </swiper-item>
+    <swiper-item>
+         <view style="background: green; height: 100px">滑动切换2</view>
+    </swiper-item>
+        <swiper-item>
+          <view style="background: blue; height: 100px">滑动切换3</view>
+    </swiper-item>    
+  </swiper>
+  <movable-area style="height: 100px;width: 100%; background: red;">
+    <movable-view direction="all" style="height: 50px; width: 50px; background: blue;">拖拽可移动</movable-view>
+  </movable-area>
+  <map id="map" longitude="117" latitude="32" style="width: 100%; height: 200px;top: 20px"> 
+    <cover-view class="place_info">
+    <cover-view class="place_info_parking">cover-view</cover-view>
+    <cover-view class="place_info_surplus">cover-view可覆盖在原生组件的组件</cover-view>
+    <cover-view class="place_info_order">66666</cover-view>
+    </cover-view>
+  </map>
 </scroll-view>
