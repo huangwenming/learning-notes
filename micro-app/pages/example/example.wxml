@@ -27,4 +27,8 @@
     <cover-view class="place_info_order">66666</cover-view>
     </cover-view>
   </map>
+  <view><button bindtap='goToConcludePage'>跳转到另外一个包</button></view>
+  <view>
+    <custom-week dateArray="{{dateArray}}"></custom-week>
+  </view>
 </scroll-view>

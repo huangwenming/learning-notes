@@ -16,6 +16,7 @@ Page({
     })
   },
   onLoad: function () {
+    console.log('index page loaded');
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo,

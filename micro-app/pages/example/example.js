@@ -1,7 +1,13 @@
 const app = getApp()
 Page({
   data: {
-
+    dateArray: []
+  },
+  onLoad: function () {
+    console.log('example page loaded');
+    this.setData({
+      dateArray: [{ dateNum: 1 }, { dateNum: 2 }, { dateNum: 3 }]
+    })
   },
   showShareMenu: function (e) {
     wx.showShareMenu({
@@ -43,4 +49,9 @@ Page({
   listenSwiper(e) {
     console.log('change swipe')
   },
+  goToConcludePage() {
+    wx.navigateTo({
+      url: '/packageMore/pages/conclude/conclude',
+    })
+  }
 })

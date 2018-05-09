@@ -1,0 +1,15 @@
+/* components/week/week.wxss */
+.date-container {
+  height: 50px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.date-item {
+  flex: 1;
+  text-align: center;
+}
+.date-num {
+  color: forestgreen
+}

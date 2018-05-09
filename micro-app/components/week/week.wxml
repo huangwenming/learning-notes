@@ -1,0 +1,6 @@
+<!--components/week/week.wxml-->
+<view class="date-container">
+  <div wx:for="{{dateArray}}" class="date-item">
+    <text class="date-num">week组件{{item.dateNum}}</text>
+  </div>
+</view>

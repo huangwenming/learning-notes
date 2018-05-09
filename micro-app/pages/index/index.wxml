@@ -13,4 +13,5 @@
   <view class='examples'>
     <button bindtap='goToExampleList'>示例demos</button>
   </view>
+  <div><p style="color: #f00">hello world</p></div>
 </view>
