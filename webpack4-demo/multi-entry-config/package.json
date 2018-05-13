@@ -1,0 +1,16 @@
+{
+  "name": "webpack4-demo",
+  "version": "1.0.0",
+  "description": "demos for testing webpack4",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^4.8.3",
+    "webpack-cli": "^2.1.3"
+  }
+}
