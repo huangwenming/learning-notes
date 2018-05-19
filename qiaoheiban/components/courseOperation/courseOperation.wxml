@@ -1,0 +1,26 @@
+<!--components/courseOperation/courseOperation.wxml-->
+<view class='course-container'>
+  <view class='course-container-header' bindtap='closeForm'></view>
+  <view class='course-container-content'>
+    <view class='header-content-link'>
+      <image class='link-down-arrow' src='https://gss0.baidu.com/94o3dSag_xI4khGko9WTAnF6hhy/map/pic/item/77094b36acaf2edd0a65be4b811001e9380193f8.jpg'></image>
+    </view>
+    <view class='course-edit-container'>
+      <input class="course-edit" placeholder="学生姓名"></input>
+      
+      <picker mode="time" value="{{startTime}}" start="07:00" end="{{endTime}}"    bindchange="startTimeChange">
+        <view class="course-edit-time">{{startTime}}</view>
+      </picker>
+      <picker mode="time" value="{{endTime}}" start="{{startTime}}" end="21:00"   bindchange="endTimeChange">
+        <view class="course-edit-time">{{endTime}}</view>
+      </picker>
+      <picker mode="selector" value="{{courseType}}" range='{{courseTypes}}'   bindchange="courseTypeChange">
+        <view class="course-edit-course-type">{{courseTypes[courseType]}}</view>
+      </picker>
+      <input class="course-edit" placeholder="课时费" type="digit"></input>
+      <input class="course-edit" placeholder="家长手机" type="number" confirm-type="done"></input>
+      <input class="course-edit" placeholder="备注"></input>
+    </view>
+    <button class="save-course-btn {{isCanSave ? '' : 'disabled'}}" bindtap="saveCourseInfo">立即排课</button>
+  </view>
+</view>

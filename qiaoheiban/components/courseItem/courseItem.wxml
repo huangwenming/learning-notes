@@ -1,0 +1,17 @@
+<!--components/courseItem/courseItem.wxml-->
+<!-- todo: 需要根据课程的状态显示：请假和试课的状态 -->
+<div class='lesson-item'>
+  <div class="lesson-left">
+    <text class='lesson-start-time'>{{courseInfo.startTime}}</text>
+    <text class='lesson-end-time'>{{courseInfo.endTime}}</text>
+    <text class='lesson-time'>{{courseInfo.courseTime}}分钟</text>
+  </div>
+  <div class="lesson-line"></div>
+  <div class="lesson-middle">
+    <text class='student-name'>{{courseInfo.studentName}}  </text><text class='lesson-order'>第{{courseInfo.courseOrder}}次课\n</text>
+    <text class='comment'>{{courseInfo.comment}}</text>
+  </div>
+  <div class="lesson-right">
+    <text class='lesson-price'>{{courseInfo.price}}元</text>
+  </div>
+</div>

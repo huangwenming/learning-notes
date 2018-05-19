@@ -1,0 +1,58 @@
+/* components/courseItem/courseItem.wxss */
+.lesson-item {
+  background-color: #fff;
+  box-sizing: border-box;
+  margin-top: 20rpx;
+  width: 100%;
+  display: flex;
+  border-radius: 16rpx;
+  border: 1rpx rgba(0,0,0,.1) solid;
+  box-shadow: 0 4rpx 8rpx #b0b0b0;
+  align-items: center;
+  padding: 20rpx 0;
+}
+.lesson-left {
+  width: 156rpx;
+  display: flex;
+  flex-direction: column;
+}
+.lesson-line {
+  width: 1rpx;
+  height: 80rpx;
+  background-color: #dedede;
+}
+.lesson-start-time, .lesson-end-time {
+  font-size: 32rpx;
+  width: 100%;
+  text-align: center;
+}
+.lesson-time {
+  font-size: 24rpx;
+  width: 100%;
+  color: rgba(0,0,0,.3);
+  text-align: center;
+}
+.lesson-middle {
+  flex: 1;
+  padding-left: 40rpx;
+}
+.student-name {
+  font-size: 32rpx;
+}
+.lesson-order {
+  font-size: 24rpx;
+  opacity: 0.3;
+}
+.comment {
+  font-size: 24rpx;
+}
+.lesson-middle-first {
+  width: 100%;
+}
+.lesson-right {
+  width: 100rpx;
+}
+.lesson-price {
+  font-size: 24rpx;
+  opacity: 0.3;
+}

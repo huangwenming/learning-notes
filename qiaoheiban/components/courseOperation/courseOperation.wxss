@@ -1,0 +1,65 @@
+/* components/courseOperation/courseOperation.wxss */
+.course-container {
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+}
+.course-container-header {
+  height: 250rpx;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+.course-container-content {
+  flex: 1;
+  background-color: #eee;
+  padding: 90rpx 40rpx;
+  position: relative;
+}
+.header-content-link {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translate(-50%, -50%);
+  height: 80rpx;
+  width: 80rpx;
+  background-color: #fff;
+  border-radius: 50%;
+}
+.link-down-arrow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  height: 18rpx;
+  width: 30rpx;
+}
+.course-edit-container {
+  background-color: #fff;
+  border-radius: 10rpx;
+}
+.course-edit, .course-edit-time, .course-edit-course-type {
+  height: 86rpx;
+  border-bottom: solid 1rpx #eee;
+  padding: 0 30rpx;
+}
+.course-edit-time, .course-edit-course-type {
+  line-height: 86rpx;
+}
+.course-edit:last-child {
+  border-bottom: none;
+  height: 100rpx;
+}
+
+.save-course-btn {
+  margin-top: 40rpx;
+  background-color: #FFCE44;
+}
+.disabled {
+  background-color: #f7f7f7;
+}

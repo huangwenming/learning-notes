@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "earning-item": "/components/earningItem/earningItem"
+  }
+}

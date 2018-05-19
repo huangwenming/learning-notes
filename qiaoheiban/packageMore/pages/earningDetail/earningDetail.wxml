@@ -1,0 +1,16 @@
+<!--packageMore/pages/earningDetail/earningDetail.wxml-->
+<view class='earning-page-container'>
+  <view class='earning-page-header'>
+    <text class='page-title'>{{statDimens}}</text>
+    <view class='page-keypoints'>
+      <view class='page-keypoint'>{{courseNum}}<text> 堂课</text></view>
+      <view class='page-keypoint'>{{totalTime}}<text> 小时</text></view>
+      <view class='page-keypoint'>{{studentNum}}<text> 学生</text></view>
+    </view>
+  </view>
+  <view class='earning-page-content'>
+    <earning-list earningInfo="{{earningInfo}}" type="{{type}}">
+      <text slot="earning-title">{{type == 2 ? '本月收入' : '本周收入'}}</text>
+    </earning-list>
+  </view>
+</view>

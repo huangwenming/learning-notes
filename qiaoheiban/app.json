@@ -1,0 +1,25 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/logs/logs",
+    "pages/shareLessonsPage/shareLessonsPage",
+    "pages/shareCommentsPage/shareCommentsPage",
+    "pages/editCommentsPage/editCommentsPage"
+  ],
+  "subPackages": [
+    {
+      "root": "packageMore",
+      "pages": [
+        "pages/conclude/conclude",
+        "pages/earningDetail/earningDetail",
+        "pages/studentDetail/studentDetail"
+      ]
+    }
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "敲黑板",
+    "navigationBarTextStyle": "black"
+  }
+}

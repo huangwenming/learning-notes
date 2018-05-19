@@ -1,0 +1,148 @@
+/**index.wxss**/
+.index-header {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 90rpx;
+  background-color: #fff;
+}
+.userinfo-avatar {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 50%;
+}
+.userinfo-nickname {
+  flex: 1;
+  padding: 0 20rpx;
+  color: #aaa;
+}
+.more-btn {
+  display: inline-block;
+  width: 32rpx;
+  height: 32rpx;
+}
+
+/**日期选择组件**/
+.week-picker {
+  background-color: #fff;
+  height: 174rpx;
+  display: flex;
+  padding: 0 20rpx;
+  align-items: center;
+  justify-content: center;
+}
+.day-container {
+  flex: 1;
+  position: relative;
+  height: 174rpx;
+  margin: 0 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.day-name {
+  height: 36rpx;
+  font-size: 24rpx;
+  color: #000;
+  opacity: 0.3;
+}
+.day-num {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.lesson-bar-container {
+  flex: 1;
+  display: flex;
+  width: 100%;
+  flex-direction: column-reverse;
+  align-items: center;
+}
+.lesson-bar {
+  height: 8rpx;
+  margin: 2rpx 0;
+  width: 100%;
+  background-color: #aaa;
+}
+/**当天总结组件**/
+.conclude-tab-container {
+  background-color: #fff;
+  height: 130rpx;
+  display: flex;
+  padding: 0 20rpx;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8rpx 16rpx 4rpx #e4e4e4;
+}
+.tab-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.tab-item-line {
+  width: 1rpx;
+  height: 48rpx;
+  background-color: #dedede;
+}
+.tab-name {
+  font-size: 28rpx;
+  color: #000;
+  opacity: 0.6;
+  height: 60rpx;
+  text-align: center;
+  line-height: 60rpx;
+}
+.lessons-count {
+  font-size: 32rpx;
+}
+.actived {
+  border-bottom: solid 8rpx #FFCE44;
+}
+
+/**课表list组件**/
+.scroll-list-container {
+  box-sizing: border-box;
+  padding: 20rpx 45rpx;
+  flex: 1;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+/**收入展示容器**/
+.earning-container {
+  box-sizing: border-box;
+  padding: 20rpx 45rpx 80rpx 45rpx;
+  flex: 1;
+}
+/**添加课程按钮**/
+.add-lesson-btn {
+  width: 112rpx;
+  height: 112rpx;
+  position: absolute;
+  left: 50%;
+  bottom: 30rpx;
+  border-radius: 50%;
+  background-color: #FFCE44;
+  transform: translate(-50%, 0);
+
+}
+.add-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: inline-block;
+  width: 48rpx;
+  height: 48rpx;
+}

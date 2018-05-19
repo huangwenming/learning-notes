@@ -1,0 +1,39 @@
+/* components/earningItem/earningItem.wxss */
+.earning-item {
+  background-color: #fff;
+  box-sizing: border-box;
+  margin-top: 20rpx;
+  height: 150rpx;
+  width: 100%;
+  padding: 0 30rpx;
+  display: flex;
+  border-radius: 16rpx;
+  border: 1rpx rgba(0,0,0,.1) solid;
+  box-shadow: 0 4rpx 8rpx #b0b0b0;
+  align-items: center;
+}
+.list-item-left {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.bloc-item {
+  display: block;
+}
+.week, .month {
+  font-size: 36rpx;
+}
+.day, .course-num, .total-time {
+  font-size: 28rpx;
+  color: rgba(0,0,0,.54);
+}
+.list-item-right {
+  min-width: 180rpx;
+  text-align: right;
+}
+.arrow-right {
+  margin-left: 30rpx;
+  width: 18rpx;
+  height: 28rpx;
+}

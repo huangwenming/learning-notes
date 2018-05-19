@@ -1,0 +1,10 @@
+/**app.wxss**/
+page {
+  height: 100%;
+  background-color: #F7F8FC;
+}
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+} 

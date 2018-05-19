@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "course-operation": "/components/courseOperation/courseOperation",
+    "idle-item": "/components/idleItem/idleItem",
+    "course-item": "/components/courseItem/courseItem",
+    "earning-list": "/components/earningList/earningList"
+  }
+}
