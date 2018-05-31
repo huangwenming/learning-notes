@@ -12,7 +12,7 @@ function keyPress(event){
     var ctrlKey = event.ctrlKey || event.metaKey;
     // 如果是ctrl+v，读取粘贴板的内容，同时查询未focus的唯一input
     if(ctrlKey && keyCode == 86) {
-        event.preventDefault();
+        // event.preventDefault();
         // 读取focus的元素
         var focusEle = document.activeElement;
         if (!focusEle || !focusEle.type) {
