@@ -1,8 +1,8 @@
 {
-    "manifest_version":2,
-    "name":"auto paste",
-    "description":"自动粘贴",
-    "version":"1.0",
+    "manifest_version": 2,
+    "name": "auto paste",
+    "description": "自动粘贴",
+    "version": "1.0",
     "icons": {
         "16": "images/paste.png",
         "48": "images/paste.png",
@@ -19,5 +19,6 @@
             "all_frames": true,
             "run_at": "document_idle"
         }
-    ]
+    ],
+    "homepage_url": "https://github.com/huangwenming/learning-notes/tree/master/chrome-plugins/paste"
 }
