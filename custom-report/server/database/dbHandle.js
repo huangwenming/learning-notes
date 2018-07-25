@@ -10,6 +10,7 @@ for (let item in models) {
 }
 
 const _getModel = function(type) {
+    // console.log(Mongoose.model(type))
     return Mongoose.model(type);
 };
 const getModel = (type) => {

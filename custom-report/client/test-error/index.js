@@ -7,6 +7,7 @@ window.onerror = function(errorMessage, scriptURI, lineNo, columnNo, error) {
 
 	// 构建错误对象
 	var errorObj = {
+        project: 'test',
 		message: errorMessage || null,
 		script: scriptURI || null,
 		lineNo: lineNo || null,

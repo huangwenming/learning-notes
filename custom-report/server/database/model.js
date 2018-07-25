@@ -4,10 +4,12 @@
 module.exports = {
     // 错误信息表,数据库中的表名为errorinfos
     errorInfo: {
+        project: String,
         message: String,
         script: String,
         lineNo: String,
         columnNo: String,
-        stack: String
+        stack: String,
+        time: String
     }
 }

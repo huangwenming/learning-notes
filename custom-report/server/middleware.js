@@ -10,6 +10,7 @@ const resolve = file => path.resolve(__dirname, file);
 // 定义post接口
 router.post('/errorMsg/', function(req, res) {
 	// POST: 错误信息存储在req.body
+    console.log(req.body);
 	let error = req.body;
     requestHander(error, req, res);
 });
@@ -70,12 +71,15 @@ function getOriginalPosition(sourceMapFile, errorInfo) {
         column: parseInt(errorInfo.columnNo, 10) // 压缩后的列号
     });
     console.log('end: 尝试解析本地map文件');
+    var timeInfo = new Date();
     return {
+        project: errorInfo.project,
         message: errorInfo.message,
         script: ret.source,
         columnNo: ret.column,
         lineNo: ret.line,
-        stack: errorInfo.stack
+        stack: errorInfo.stack,
+        time: timeInfo.getFullYear() + '/' + (timeInfo.getMonth() + 1) + '/' + timeInfo.getDate() + ' ' + timeInfo.getHours() + ':' + timeInfo.getMinutes()
     };
 }
 
@@ -103,6 +107,7 @@ function findFromDb(condition, req, res) {
 function* saveErrorToDb(data, req, res) {
     let model = 'errorInfo';
     const Model = global.dbHandle.getModel(model);
+    // console.log(data);
     const newModel = yield Model.create(data);
     console.log('返回请求结果');
     var resposeData = {
@@ -116,9 +121,9 @@ function* saveErrorToDb(data, req, res) {
 function* getErrorListFromDb(condition, req, res) {
     let model = 'errorInfo';
     const Model = global.dbHandle.getModel(model);
-    const docs = yield Model.find().sort({_id: -1}).limit(condition.limit);
+    const docs = yield Model.find({project: condition.project}).sort({_id: -1}).limit(condition.limit);
     console.log('返回请求结果');
-    console.log(docs);
+    // console.log(docs);
     responseFunc(req, res, docs);
 }
 
