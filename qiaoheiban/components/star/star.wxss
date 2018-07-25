@@ -1,0 +1,31 @@
+/* components/star/star.wxss */
+.wx-star-panel{
+  display: flex;
+}
+.wx-star {
+  position: relative;
+  flex: 1;
+  height: 44rpx;
+  margin: 10rpx;
+  color: #E0E0E0;
+  text-align: center;
+  line-height: 44rpx;
+  font-size: 44rpx;
+}
+.wx-star-right{
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+.wx-star {
+	background: url('https://gss0.baidu.com/94o3dSag_xI4khGko9WTAnF6hhy/map/pic/item/562c11dfa9ec8a139b144449fb03918fa0ecc009.jpg') no-repeat;
+    background-size: 46rpx 44rpx;
+}
+.wx-star-checked{
+  color: #FFCE44;
+  background: url('https://gss0.baidu.com/94o3dSag_xI4khGko9WTAnF6hhy/map/pic/item/faedab64034f78f032958a5a75310a55b2191cf8.jpg') no-repeat;
+  background-size: 46rpx 44rpx;
+}

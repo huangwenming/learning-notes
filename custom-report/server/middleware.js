@@ -20,6 +20,11 @@ router.get('/errorMsg/', function (req, res) {
     let query = req.query;
     requestHander(query, req, res);
 });
+// 吐出错误信息，供amis使用
+router.get('/errorMsgList/', function (req, res) {
+    let query = req.query;
+    findFromDb(query, req, res);
+})
 
 // 请求的回调函数
 function requestHander(errorInfo, req, res) {
@@ -83,6 +88,16 @@ function saveToDb(errorInfo, req, res) {
         result.next();
     });
 }
+// 从相应的数据库拉取error信息的源信息
+function findFromDb(condition, req, res) {
+    let result = getErrorListFromDb(condition, req, res);
+    let findResult = result.next();
+    findResult.value.then(function (data) {
+        // console.log(data)
+        console.log('success-拉取信息成功');
+        result.next(data);
+    });
+}
 
 // 数据库操作——》存储
 function* saveErrorToDb(data, req, res) {
@@ -90,15 +105,25 @@ function* saveErrorToDb(data, req, res) {
     const Model = global.dbHandle.getModel(model);
     const newModel = yield Model.create(data);
     console.log('返回请求结果');
-    responseFunc(req, res);
-}
-
-// 响应请求
-function responseFunc(req, res) {
     var resposeData = {
         errorNo: 0,
         message: 'error info has been received by ERROR_CENTER'
     };
+    responseFunc(req, res, resposeData);
+}
+
+// 数据库操作——》拉取
+function* getErrorListFromDb(condition, req, res) {
+    let model = 'errorInfo';
+    const Model = global.dbHandle.getModel(model);
+    const docs = yield Model.find().sort({_id: -1}).limit(condition.limit);
+    console.log('返回请求结果');
+    console.log(docs);
+    responseFunc(req, res, docs);
+}
+
+// 响应请求
+function responseFunc(req, res, resposeData) {
     if (req.method === 'GET') {
         var _callback = req.query.callback;
         if (_callback) {

@@ -1,0 +1,12 @@
+<!--components/studentItem/studentItem.wxml-->
+<div class='student-item'>
+    <div class="list-item-left">
+        <text>{{studentInfo.studentName}}</text>
+    </div>
+    <div class="list-item-middle">
+        <text>{{studentInfo.mobile == 0 ? '' : studentInfo.mobile}}</text>
+    </div>
+    <div class="list-item-right">
+        <image class="arrow-right" src="https://gss0.baidu.com/94o3dSag_xI4khGko9WTAnF6hhy/map/pic/item/42a98226cffc1e17e70a31924690f603728de9d8.jpg"></image>
+    </div>
+</div>

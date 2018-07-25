@@ -1,0 +1,17 @@
+<!--components/studentOperation/studentOperation.wxml-->
+<view class='student-container'>
+    <view class='student-container-header' bindtap='closeForm'></view>
+    <view class='student-container-content'>
+        <view class='header-content-link' bindtap='closeForm'>
+            <image class='link-down-arrow' src='https://gss0.baidu.com/94o3dSag_xI4khGko9WTAnF6hhy/map/pic/item/9f2f070828381f305350ec52a5014c086f06f084.jpg'></image>
+        </view>
+        <view class='student-edit-container'>
+            <input class="student-edit" placeholder="学生姓名" bindinput="studentNameInput" placeholder-class="placeholder" value="{{studentName}}" confirm-type="done"></input>
+
+            <input class="student-edit" placeholder="联系电话" bindinput="mobileInput" type="digit" placeholder-class="placeholder" value="{{mobile}}" confirm-type="done"></input>
+
+            <input class="student-edit" placeholder="备注" bindinput="noteInput" placeholder-class="placeholder" value="{{note}}" confirm-type="done"></input>
+        </view>
+        <button class="save-student-btn {{isCanSave ? '' : 'disabled'}}" bindtap="saveStudentInfo">确定</button>
+    </view>
+</view>

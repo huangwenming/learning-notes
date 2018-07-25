@@ -1,0 +1,14 @@
+<!--components/weekDay/weekDay.wxml-->
+<!-- 引用filter模块，增强wxml 标签的表达能力 -->
+<wxs module="commonFilter" src="../../filters/commonFilter.wxs"></wxs>
+<view class='week-picker'>
+        <div class="day-container" wx:for='{{weekInfo}}' wx:for-index="dayIndex" data-dayindex='{{dayIndex}}' bindtap='changeSelectedDay'>
+            <!-- <text class='day-name'>{{item.dayName}}</text> -->
+            <div class="lesson-bar-container {{dayIndex == selectedIndex ? item.isToday ? 'today-selected' : 'selected' : ''}}">
+                <div class="lesson-bar {{item.isCompleted ? 'completed' : ''}}" wx:for-item="bar" wx:for="{{commonFilter.converNumToArray(item.courseNum)}}"></div>
+            </div>
+            <text class="today-desc" wx:if="{{item.isToday}}">今天</text>
+            <text class="day-num {{item.isToday ? 'today' : ''}}">{{item.dayDate}}</text>
+            <text wx:if="{{dayIndex == selectedIndex}}" class="day-month {{item.isToday ? 'today' : ''}}">{{item.dayMonth}}月</text>
+        </div>
+</view>

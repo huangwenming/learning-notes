@@ -1,0 +1,6 @@
+{
+    "navigationBarTitleText": "敲黑板",
+    "usingComponents": {
+        "evaluation-item": "/components/evaluationItem/evaluationItem"
+    }
+}

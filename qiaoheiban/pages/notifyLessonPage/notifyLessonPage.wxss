@@ -1,0 +1,56 @@
+/* pages/notifyLessonPage/notifyLessonPage.wxss */
+.notify-page-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.student-info {
+    height: 180rpx;
+    line-height: 180rpx;
+    text-align: center;
+    font-size: 36rpx;
+    background-color: #fff;
+    box-shadow: 0 8rpx 16rpx 4rpx rgba(228, 228, 228, .5);
+}
+.notify-page-content {
+	margin: 40rpx 30rpx 0 30rpx;
+	position: relative;
+	flex: 1;
+}
+.notify-card {
+    background-color: #fff;
+    border-radius: 16rpx;
+    box-sizing: border-box;
+    padding: 15rpx;
+    text-align: center;
+    box-shadow: 0 4rpx 8rpx rgba(176, 176, 176, .5);
+}
+.notify-tip {
+	color: #DD5044;
+	font-size: 24rpx;
+}
+.notify-img {
+	height: 240rpx;
+	width: 240rpx;
+	margin: 30rpx 0;
+}
+.course-time {
+	font-size: 36rpx;
+}
+
+/**授权按钮**/
+.authorize-btn {
+	position: absolute;
+	width: 100%;
+	bottom: 30rpx;
+	height: 80rpx;
+	line-height: 80rpx;
+	font-size: 28rpx;
+    background-color: #FFCE44;
+    color: #fff;
+    box-shadow:0 4rpx 20rpx 0 rgba(0, 0, 0, .2);
+}
+.blur {
+	color: transparent;
+    text-shadow: 0 0 9px rgba(0,0,0,0.3);
+}

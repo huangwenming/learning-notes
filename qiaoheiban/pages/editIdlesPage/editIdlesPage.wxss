@@ -1,0 +1,61 @@
+/* pages/editIdlesPage/editIdlesPage.wxss */
+.edit-idles-page {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 50rpx 30rpx;
+}
+.edit-idles-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: 16rpx;
+    padding: 0 40rpx 40rpx 40rpx;
+}
+.edit-title {
+    height: 106rpx;
+    line-height: 106rpx;
+    border-bottom: 1rpx dashed rgba(0, 0, 0, .3);
+    text-align: center;
+    font-size: 28rpx;
+    opacity: .87;
+}
+.idles-list-container {
+    flex: 1;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    color: transparent;
+}
+.idles-list {
+    height: 100%;
+}
+.idle-item {
+    height: 88rpx;
+    display: flex;
+    align-items: center;
+}
+.idle-value {
+    flex: 1;
+}
+.checkbox {
+    color: #FFCE44;
+}
+.save-idles-btn {
+    margin-top: 70rpx;
+    background-color: #FFCE44;
+    width: 100%;
+    color: #fff;
+    box-shadow: 0 4rpx 20rpx 0 rgba(0, 0, 0, .2);
+}
+button.save-idles-btn::after { 
+    border: none;
+}
+.disabled {
+    background-color: #f7f7f7;
+}

@@ -1,0 +1,28 @@
+/* components/picker/picker.wxss */
+.picker-container {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+}
+.picker-content {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+.minute-cn {
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    right: 9%;
+    transform: translate(0, -50%);
+    font-size: 22rpx;
+}
+.picker-item {
+    height: 32rpx;
+    font-size: 24rpx;
+    line-height: 32rpx;
+    width: 60%;
+}

@@ -5,7 +5,7 @@ const path = require('path');
 const resolve = file => path.resolve(__dirname, file);
 
 // 读取首页文件
-let indexHTML = fs.readFileSync(resolve('../client/index.html'), 'utf-8');
+let indexHTML = fs.readFileSync(resolve('../client/test-error/index.html'), 'utf-8');
 
 // 挂载中间件
 router.use(function(req, res, next) {

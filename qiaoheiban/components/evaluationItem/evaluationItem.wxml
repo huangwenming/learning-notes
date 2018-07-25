@@ -1,0 +1,14 @@
+<!--components/evaluationItem/evaluationItem.wxml-->
+<wxs module="commonFilter" src="../../filters/commonFilter.wxs"></wxs>
+<view class='evaluation-item'>
+    <view class='evaluate-star-container'>
+    	<star bindstarChange="starChanged" starCount="{{evaluationInfo.star}}" starSupportEdit="{{evaluationInfo.starEdit}}"></star>
+        <text class="star-desc {{isBlur? 'blur' : ''}}"> {{commonFilter.converStar(evaluationInfo.star)}}</text>
+    </view>
+    <view class='content'>
+        <text class="{{isBlur? 'blur' : ''}}">{{evaluationInfo.content}}</text>
+    </view>
+    <view class='course-info'>
+    	<text class='course-time'>上课时间：{{evaluationInfo.yearMonthDay}}  {{evaluationInfo.fullWeekDay}} {{evaluationInfo.startTime}}-{{evaluationInfo.endTime}}</text>
+    </view>
+</view>

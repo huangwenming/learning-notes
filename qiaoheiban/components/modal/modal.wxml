@@ -1,0 +1,16 @@
+<!--components/modal/modal.wxml-->
+<view class="modal-mask" data-id="mask" catchtap="maskHideModal" catchtouchmove="preventTouchMove" wx:if="{{modalInfo.isShow}}">
+	<view class="modal-dialog" catchtap="maskHideModal">
+      <view class="modal-title">填写提示</view>
+      <view class="modal-content">
+        <view class="modal-input">
+          <input placeholder-class="input-holder" value="{{modalInfo.input}}" type="number" maxlength="11" bindinput="inputChange" class="input" placeholder="{{modalInfo.inputHolder}}"></input>
+        </view>
+      </view>
+      <view class="modal-footer">
+        <view class="btn-cancel width50" wx:if="{{modalInfo.showCancel}}" catchtap="onCancel" data-status="cancel">取消</view>
+        <view class="btn-confirm {{isCanConfirm ? '' : 'disabled'}} {{modalInfo.showCancel ? 'width50' : ''}}" catchtap="onConfirm" data-status="confirm">确定</view>
+      </view>
+    </view>
+</view>
+
