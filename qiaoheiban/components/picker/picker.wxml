@@ -1,9 +1,0 @@
-<!--components/picker/picker.wxml-->
-<view class='picker-container'>
-    <view class='minute-cn'>分钟</view>
-    <view class='picker-content' bindtouchstart="startHandler" bindtouchmove="moveHandler" bindtouchend="endHandler" style="transform: translate(0, {{transformY}}rpx)">
-        <view class='picker-item' wx:for="{{pickData}}">
-            <text style='opacity: {{opacitys[index]}}; zoom: {{zooms[index]}};'>{{item}}</text>
-        </view>
-    </view>
-</view>
