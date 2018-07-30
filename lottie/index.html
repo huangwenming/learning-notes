@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div class="stage"> </div>
+<script src="./node_modules/lottie-web/build/player/lottie.js"></script>
+<script>
+    var stage = document.querySelector('.stage');
+    lottie.loadAnimation({
+        container: stage,   //包含动画的DOM元素
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        path: './data/tractor.json',   //动画的路径
+    })
+</script>
+</body>
+</html>
