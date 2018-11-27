@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>sentry-error-test</title>
+</head>
+<body>
+<script src="https://browser.sentry-cdn.com/4.3.4/bundle.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.ravenjs.com/2.1.0/raven.min.js"></script>
+<script>
+    Sentry.init({
+        dsn: 'https://312f28c34c4740e5a5f36700b53f9d75@sentry.io/1331315',
+        release: "sentry-project@1.0.0"
+    });
+    Raven.config('https://312f28c34c4740e5a5f36700b53f9d75@sentry.io/1331315').install();
+    function handleRouteError(err) {
+        Raven.captureException(err);
+        Raven.showReportDialog();
+    };
+    try {
+        console.log(a);
+    }
+    catch (err) {
+        handleRouteError(err);
+    }
+    
+</script>
+</body>
+</html>
