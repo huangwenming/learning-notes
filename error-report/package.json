@@ -1,0 +1,20 @@
+{
+  "name": "error-report",
+  "version": "1.0.0",
+  "description": "Capture exceptions in front-end programs and upload the exceptions to the specified server.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/huangwenming/learning-notes/error-report"
+  },
+  "keywords": [
+    "error",
+    "exceptions",
+    "upload"
+  ],
+  "author": "huangwenming@baidu.com",
+  "license": "ISC"
+}
