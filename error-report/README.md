@@ -22,7 +22,11 @@
     let errorHandler = new ErrorReport({
         supportType: 'vue', // 支持vue项目
         vueIns: Vue, // 传入vue对象
-        project: 'collection' // 页面所属的项目
+        project: 'collection', // 页面所属的项目
+        collectAddress: 'http://localhost:8585/middleware/errorMsg/', // 接受错误信息的服务地址
+        sourceMapAddress: 'http://localhost:8585/client/test-error/' // sourceMap的访问地址
     });
 	errorHandler.enableCatchError();
 ```
+## 示例
+参考examples文件夹下的readme文件

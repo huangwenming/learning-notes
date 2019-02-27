@@ -11,6 +11,11 @@ import util from './libs/util.js';
  * @class
  */
 class ErrorReport {
+    /**
+     * ErrorReport构造函数
+     * @param options
+     * @required options.collectAddress 日志收集后端接口地址
+     */
     constructor(options) {
         // 注册一个error的缓存，重复的错误无需重复提交
         this.errorCache = {};
@@ -18,6 +23,8 @@ class ErrorReport {
         this.project = options.project || 'collection';
         // 日志收集后端接口地址
         this.collectAddress = options.collectAddress || 'http://localhost:8080/middleware/errorMsg/';
+        // sourceMap的存放地址
+        this.sourceMapAddress = options.sourceMapAddress || '';
         // 错误信息收集类型（window, vue, react）
         this.supportType = options.supportType || 'window';
         this.supportIns = options.supportIns || window;
@@ -110,7 +117,7 @@ class ErrorReport {
      * 上报错误信息
      * @param errorObj {Object} 错误信息
      */
-    reporError(errorObj) {
+    sendErrorInfo(errorObj) {
         let url = this.collectAddress;
         // 可以考虑将errObj整体做为一个json串传递到后端，以便做扩展
         // 读取errorCache，进行重复消息过滤; key值为message + script + lineNo + columnNo
@@ -120,6 +127,8 @@ class ErrorReport {
         } else {
             this.errorCache[key] = 1;
         }
+        // 上传时携带上sourceMap文件的地址
+        errorObj.sourceMapAddress= this.sourceMapAddress;
         util.jsonp(url, errorObj, function (data) {
             console.log('error message has been send to server successfully');
         })

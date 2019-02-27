@@ -1,3 +1,4 @@
+window.jsonpcb = {};
 export default {
     /**
      * jsonp请求
