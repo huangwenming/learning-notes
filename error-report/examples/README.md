@@ -25,7 +25,7 @@ http://localhost:8585/client/test-error/
 
 3. 错误信息存储的mongodb库为：report->errorinfos, 表的设计文件在`.server/database/model.js`
 
-4. 只使用收集功能，项目目录下`npm run dev`启动服务；借用前端页面进行测试，`npm run test`，然后访问http://localhost:8585/
+4. 只使用收集功能，项目目录下`npm run dev`启动服务；借用前端页面进行测试，`npm run test`，然后访问http://localhost:8585/client/test-error/
 
 5. node版本：node > 6.0
 
