@@ -56,8 +56,13 @@ function requestHander(errorInfo, req, res) {
                 let remoteFileUrl = errorInfo.sourceMapAddress ? errorInfo.sourceMapAddress + localFileUrl : fileUrl;
                 request(remoteFileUrl).pipe(stream).on('close', function () {
                     console.log('end: 加载远程map文件到本地');
-                    let originError = getOriginalPosition(resolve('./mapfiles/' + localFileUrl), errorInfo);
-                    saveToDb(originError, req, res);
+                    try {
+                        let originError = getOriginalPosition(resolve('./mapfiles/' + localFileUrl), errorInfo);
+                        saveToDb(originError, req, res);
+                    }
+                    catch (err) {
+                        saveToDb(errorInfo, req, res);
+                    }
                 });
             }
 
@@ -139,6 +144,7 @@ function* getErrorListFromDb(condition, req, res) {
 
 // 响应请求
 function responseFunc(req, res, resposeData) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     if (req.method === 'GET') {
         var _callback = req.query.callback;
         if (_callback) {

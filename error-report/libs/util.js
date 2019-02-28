@@ -31,7 +31,7 @@ export default {
         };
         script.onerror = function () {
             script.parentNode.removeChild(script);
-            failCallback && failCallback();
+            failCb && failCb();
             // util.toast('请求失败，请重试');
             window.jsonpcb[cbn] = null;
         };
