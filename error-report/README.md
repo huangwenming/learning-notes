@@ -17,14 +17,19 @@
     };
 ```
 ## 使用方法
+```bash
+  npm i --save custom-error-report
+```
 
 ```javascript
+    import ErrorReport from 'custom-error-report';
+    
     let errorHandler = new ErrorReport({
         supportType: 'vue', // 支持vue项目
         vueIns: Vue, // 传入vue对象
         project: 'collection', // 页面所属的项目
-        collectAddress: 'http://localhost:8585/middleware/errorMsg/', // 接受错误信息的服务地址
-        sourceMapAddress: 'http://localhost:8585/client/test-error/' // sourceMap的访问地址
+        collectAddress: 'http://localhost:8585/middleware/errorMsg/', // 接受错误信息的服务地址(需要结合自己的项目配置)
+        sourceMapAddress: 'http://localhost:8585/client/test-error/' // sourceMap的访问地址(需要结合自己的项目配置)
     });
 	errorHandler.enableCatchError();
 ```
