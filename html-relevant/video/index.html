@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test for video</title>
+    <style>
+        .IIV::-webkit-media-controls-play-button,
+        .IIV::-webkit-media-controls-start-playback-button{ opacity 0; pointer-events none; width 5px; }
+        .play-inline-btn {
+            height: 50px;
+            line-height: 50px;
+            background-color: #66afe9;
+            color: #fff;
+            text-align: center;
+        }
+        .play-inline-container {
+            position: relative;
+            height: 1070px;
+            width: 600px;
+        }
+        .custom-control {
+            height: 100px;
+            line-height: 100px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #15c6ff;
+            color: #fff;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <p class="play-inline-btn" id="play-inline">小窗播放</p>
+    </div>
+    <div class="play-inline-container">
+        <video autoplay muted id="video" preload="auto" x-webkit-airplay webkit-playsinline playsinline
+               src="test.mp4" style="width:100%;height:auto;" poster="poster.jpg">
+        </video>
+        <div class="custom-control">start by clicking here</div>
+    </div>
+<script>
+    let inlineBtn = document.querySelector('.play-inline-btn');
+    let inlineContainer = document.querySelector('.play-inline-container');
+    let videoEle = document.querySelector('.play-inline-container #video');
+    let videoControl = document.querySelector('.play-inline-container .custom-control');
+    inlineBtn.addEventListener('click', function () {
+        inlineContainer.style.display = 'block';
+    });
+    videoEle.addEventListener('click', function () {
+        // videoEle.play();
+    });
+    videoControl.addEventListener('click', function () {
+        videoEle.play();
+    });
+    /*let promise = document.querySelector('video').play();
+    if (promise !== undefined) {
+        promise.catch(error => {
+            alert('Auto-play was prevented')
+            // Auto-play was prevented
+            // Show a UI element to let the user manually start playback
+        }).then(() => {
+            // Auto-play started
+            alert('Auto-play started')
+        });
+    }*/
+</script>
+</body>
+</html>
