@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>beacon test</title>
+    <style>
+        .btn {
+            height: 70px;
+            font-size: 32px;
+            width: 100%;
+            background-color: #15c6ff;
+            color: #fff;
+            line-height: 70px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <p class="btn" data-type="beacon-btn">unload page and request with beacon</p>
+        <p class="btn" data-type="xhr-sync-btn">unload page and request with xhr-sync</p>
+        <p class="btn" data-type="xhr-aysnc-btn">unload page and request with xhr-async</p>
+    </div>
+</body>
+<script>
+    let startTime = performance.now();
+    let surpportTypes = {
+        'xhr-sync-btn': 'xhr-sync',
+        'xhr-async-btn': 'xhr-async',
+        'beacon-btn': 'beacon'
+    };
+    let surpportType = '';
+    const captureAnalyticsData = ()=> {
+        // 计算页面停留时长
+        let data = new FormData();
+        data.append('url', document.URL);
+        data.append('stay-time', performance.now() - startTime + 'ms');
+        return data;
+    };
+    document.querySelector('.app-container').addEventListener('click', (event)=> {
+        const target = event.target;
+        const dataType = target.getAttribute('data-type');
+        surpportType = surpportTypes[dataType];
+        location.reload();
+    });
+    window.addEventListener('unload', (event)=> {
+        let xhr,
+            data = captureAnalyticsData();
+
+        if (navigator.sendBeacon && surpportType === 'beacon') {
+            navigator.sendBeacon('/log', data);
+        }
+        else {
+            xhr = new XMLHttpRequest();
+            // 注意第三个参数：false
+            // 该参数表示请求为同步请求，也就是unload之前必须等待请求发出并响应
+            // 而unload的时候，如果是异步请求，容易被浏览器遗弃
+            xhr.open('post', '/log', surpportType === 'xhr-async' ? true : false);
+            xhr.send(data);
+        }
+    });
+</script>
+</html>
