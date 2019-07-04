@@ -29,6 +29,15 @@ jsonp其实就是为script指定一个src，这种情况下浏览器会在docume
 * 将少量数据发送到服务器，而无需等待响应
 * navigator.sendBeacon有返回值，true表示请求已发出，false表示请求未发出
 
+## 关键截图
+关键截图：
+beacon请求：  
+
+![beacon](https://gss0.baidu.com/94o3dSag_xI4khGko9WTAnF6hhy/map/pic/item/728da9773912b31bdee775cd8818367adbb4e14f.jpg)  
+
+xhr请求： 
+
+![beacon](https://gss0.baidu.com/94o3dSag_xI4khGko9WTAnF6hhy/map/pic/item/962bd40735fae6cd33d5138501b30f2443a70ff4.jpg) 
 ## 参考资料
 https://www.sitepoint.com/introduction-beacon-api/  
 
