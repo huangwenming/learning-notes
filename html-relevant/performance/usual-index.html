@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>the test for performance</title>
+    <link rel="stylesheet" href="https://carowner.baidu.com/legal/static/css/async-LegalNewIndex.106138b3.css">
+    <style>
+        .app-container {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+    <script>
+        // 通常在head标签尾部时，打个标记，这个通常会视为白屏时间（FP）
+        performance.mark("first paint time");
+    </script>
+</head>
+<body>
+<div class="app-container">
+    <img src="https://carowner.baidu.com/legal/static/img/header-card-bg.1a2d90ac.png" onload="heroImageLoaded()">
+    <img src="https://carowner.baidu.com/legal/static/img/header-card-bg.1a2d90ac.png" onload="heroImageLoaded()">
+    <img src="https://carowner.baidu.com/legal/static/img/header-card-bg.1a2d90ac.png" onload="heroImageLoaded()">
+</div>
+<script>
+    // 根据首屏中的核心元素确定首屏时间（FMP）
+    performance.clearMarks("hero img displayed");
+    performance.mark("hero img displayed");
+    function heroImageLoaded() {
+        performance.clearMarks("hero img displayed");
+        performance.mark("hero img displayed");
+    }
+</script>
+<script src="https://webmap0.bdimg.com/yyfm/publish/js/yymap.min.d41a8aec2f9aa36d884020a6851a54cd.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        performance.mark("dom ready");
+    });
+    window.onload = ()=> {
+        performance.mark("page loaded");
+        window.perfomanceMetrics = {
+            fp: Math.ceil(performance.getEntriesByName('first paint time')[0].startTime),
+            fmp: Math.ceil(performance.getEntriesByName('hero img displayed')[0].startTime),
+            domReady: Math.ceil(performance.getEntriesByName('dom ready')[0].startTime),
+            pageLoad: Math.ceil(performance.getEntriesByName('page loaded')[0].startTime),
+        };
+        console.log('使用performance的mark采集到的页面性能指标：\n');
+        for (let key in perfomanceMetrics) {
+            console.log(key + ':' + perfomanceMetrics[key] + '\n');
+        }
+    };
+    window.onunload = function () {
+        const transformObjToFormData = (obj)=> {
+            const formData = new FormData();
+            for (let key in obj) {
+                formData.append(key, obj[key]);
+            }
+            return formData;
+        };
+        const uploadData = transformObjToFormData(perfomanceMetrics);
+        // server can be opened in the ./beacon directory
+        navigator.sendBeacon('http://localhost:3000/log', uploadData);
+    };
+</script>
+</body>
+</html>
