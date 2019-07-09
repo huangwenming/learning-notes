@@ -1,0 +1,14 @@
+{
+  "name": "performance",
+  "version": "1.0.0",
+  "description": "the demo for performance",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "huangwenming",
+  "license": "ISC",
+  "dependencies": {
+    "tti-polyfill": "^0.2.2"
+  }
+}

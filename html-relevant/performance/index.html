@@ -4,20 +4,28 @@
     <!-- Register the PerformanceObserver to track paint timing(FP/FCP). -->
     <script>
         let perfomanceMetrics = {};
-        const observer = new PerformanceObserver((list) => {
-            for (const entry of list.getEntries()) {
-                // `name` will be either 'first-paint' or 'first-contentful-paint'.
-                const metricName = entry.name;
-                const time = Math.round(entry.startTime + entry.duration);
-                if (metricName === 'first-paint') {
-                    perfomanceMetrics.fp = time;
+        if (PerformancePaintTiming || PerformanceLongTaskTiming) {
+            window.__tti = {e: []};
+            const observer = new PerformanceObserver((list) => {
+                for (const entry of list.getEntries()) {
+                    // `name` will be either 'first-paint' or 'first-contentful-paint'.
+                    const metricName = entry.name;
+                    const time = Math.round(entry.startTime + entry.duration);
+                    if (metricName === 'first-paint') {
+                        perfomanceMetrics.fp = time;
+                    }
+                    if (metricName === 'first-contentful-paint') {
+                        perfomanceMetrics.fcp = time;
+                    }
+                    // observe the longtask to get the time to interactive (TTI)
+                    if (entry.entryType === 'longtask') {
+                        window.__tti.e.concat(entry);
+                    }
+                    // console.log(entry)
                 }
-                if (metricName === 'first-contentful-paint') {
-                    perfomanceMetrics.fcp = time;
-                }
-            }
-        });
-        observer.observe({entryTypes: ['paint']});
+            });
+            observer.observe({entryTypes: ['paint', 'longtask']});
+        }
     </script>
     <meta charset="UTF-8">
     <title>the test for performance</title>
@@ -79,6 +87,15 @@
             // server can be opened in the ./beacon directory
             navigator.sendBeacon('http://localhost:3000/log', uploadData);
         };
+    </script>
+    <script src="./node_modules/tti-polyfill/tti-polyfill.js"></script>
+    <script>
+        // 获取TTI
+        ttiPolyfill.getFirstConsistentlyInteractive().then(console.log);
+        /*tti-polyfill.getFirstConsistentlyInteractive().then((tti) => {
+            // Use `tti` value in some way.
+            console.log(tti);
+        });*/
     </script>
 </body>
 </html>
