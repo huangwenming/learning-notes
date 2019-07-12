@@ -17,9 +17,9 @@ window.addEventListener("load", function() {
 var initQrcode = function(url) {
 	var pre = {
 		'web': url,
-		'map': 'baidumap://map/cost_share?url=' + url,
+		'map': 'baidumap://map/cost_share?url=' + encodeURIComponent(url),
         'carowner': 'baidumap://map/component?comName=carowner&target=open_web_page&popRoot=no&param=' +
-        encodeURIComponent(JSON.stringify({'url':url, 'from':"chrome-qrcode", "showShare":"0"})),
+        encodeURIComponent(JSON.stringify({'url':url, "showShare":"0"})),
         'shoubai': 'baiduboxapp://v1/easybrowse/open?url=' + encodeURIComponent(url),
 		'nuo': 'bainuo://component?url=' + encodeURIComponent(url),
 		'nuoweb': 'bainuo://web?url=' + encodeURIComponent(url),
@@ -31,7 +31,7 @@ var initQrcode = function(url) {
 		text: pre.web
 	});
 
-	// 百度地图url 
+	// 百度地图url
 	jQuery('#qrcodeMap').qrcode({
 		text: pre.map
 	});
@@ -49,9 +49,9 @@ var initQrcode = function(url) {
 	// 百度糯米浏览器组件版本
 	jQuery('#qrcodeNuo').qrcode({
 		text: pre.nuo
-	});	
+	});
 
-	// 百度糯米浏览器web版本 
+	// 百度糯米浏览器web版本
 	jQuery('#qrcodeNuoWeb').qrcode({
 		text: pre.nuoweb
 	});
