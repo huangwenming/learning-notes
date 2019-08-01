@@ -35,16 +35,21 @@ function requestHander(errorInfo, req, res) {
         try {
             // console.log(fileUrl);
             // 尝试读取本地文件，本地不成功，则读取线上的map文件，然后存储在本地
-            let localFileUrl = url.slice(url.indexOf('js/')) + '.map'; // map文件路径
+            // map文件路径
+            let localFileUrl = url.slice(url.indexOf('js/')) + '.map';
+            // map文件优先从请求中传入的地址读取
+            const adressFromQuery = errorInfo.sourceMapAddress ? errorInfo.sourceMapAddress + localFileUrl : '';
+            let sourceMapAddress = adressFromQuery || resolve('./mapfiles/static/' + localFileUrl);
+
             try {
-                let originError = getOriginalPosition(resolve('./mapfiles/' + localFileUrl), errorInfo);
+                let originError = getOriginalPosition(sourceMapAddress, errorInfo);
                 saveToDb(originError, req, res);
             } catch(err) {
-                let stream = fs.createWriteStream(resolve('./mapfiles/' + localFileUrl));
+                let stream = fs.createWriteStream(sourceMapAddress);
                 console.log('start: 加载远程map文件到本地');
                 request(fileUrl).pipe(stream).on('close', function () {
                     console.log('end: 加载远程map文件到本地');
-                    let originError = getOriginalPosition(resolve('./mapfiles/' + localFileUrl), errorInfo);
+                    let originError = getOriginalPosition(sourceMapAddress, errorInfo);
                     saveToDb(originError, req, res);
                 });
             }
@@ -61,23 +66,30 @@ function requestHander(errorInfo, req, res) {
 // 读取本地source-map文件，返回error信息的源信息
 function getOriginalPosition(sourceMapFile, errorInfo) {
     console.log('start: 尝试读取本地map文件');
-    let rawSourceMap = JSON.parse(fs.readFileSync(sourceMapFile, 'utf8'));
-    console.log('end: 尝试读取本地map文件');
+    let ret = {};
+    try {
+        let rawSourceMap = JSON.parse(fs.readFileSync(sourceMapFile, 'utf8'));
+        console.log('end: 尝试读取本地map文件');
 
-    console.log('start: 尝试解析本地map文件');
-    let consumer = sourceMap.SourceMapConsumer(rawSourceMap);
-    let ret = consumer.originalPositionFor({
-        line: parseInt(errorInfo.lineNo, 10), // 压缩后的行号
-        column: parseInt(errorInfo.columnNo, 10) // 压缩后的列号
-    });
-    console.log('end: 尝试解析本地map文件');
-    var timeInfo = new Date();
+        console.log('start: 尝试解析本地map文件');
+        let consumer = sourceMap.SourceMapConsumer(rawSourceMap);
+        ret = consumer.originalPositionFor({
+            // 压缩后的行号
+            line: parseInt(errorInfo.lineNo, 10),
+            // 压缩后的列号
+            column: parseInt(errorInfo.columnNo, 10)
+        });
+        console.log('end: 尝试解析本地map文件');
+    } catch (e) {
+
+    }
+    let timeInfo = new Date();
     return {
         project: errorInfo.project,
         message: errorInfo.message,
-        script: ret.source,
-        columnNo: ret.column,
-        lineNo: ret.line,
+        script: ret.source || '',
+        columnNo: ret.column || '',
+        lineNo: ret.line || '',
         stack: errorInfo.stack,
         time: timeInfo.getFullYear() + '/' + (timeInfo.getMonth() + 1) + '/' + timeInfo.getDate() + ' ' + timeInfo.getHours() + ':' + timeInfo.getMinutes()
     };
@@ -129,18 +141,23 @@ function* getErrorListFromDb(condition, req, res) {
 
 // 响应请求
 function responseFunc(req, res, resposeData) {
+    const formatedResponseData = {
+        message: 'done',
+        errno: 0,
+        data: resposeData
+    }
     if (req.method === 'GET') {
         var _callback = req.query.callback;
         if (_callback) {
             res.type('text/javascript');
-            res.send(_callback + '(' + JSON.stringify(resposeData) + ')');
+            res.send(_callback + '(' + JSON.stringify(formatedResponseData) + ')');
         }
         else {
-            res.json(resposeData);
+            res.json(formatedResponseData);
         }
     }
     if (req.method === 'POST') {
-        res.json(resposeData);
+        res.json(formatedResponseData);
     }
 }
 
