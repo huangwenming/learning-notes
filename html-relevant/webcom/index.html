@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>web component test</title>
+</head>
+<body>
+<template id="my-paragraph">
+    <style>
+        p {
+            color: white;
+            background-color: #666;
+            padding: 5px;
+        }
+    </style>
+    <p>My paragraph</p>
+</template>
+<script>
+    // 参考文档：https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_templates_and_slots
+    customElements.define('my-paragraph',
+        class extends HTMLElement {
+            constructor() {
+                super();
+                let template = document.getElementById('my-paragraph');
+                let templateContent = template.content;
+
+                const shadowRoot = this.attachShadow({mode: 'open'})
+                    .appendChild(templateContent.cloneNode(true));
+            }
+        });
+</script>
+
+<div id="app">
+    <my-paragraph></my-paragraph>
+</div>
+</body>
+<script>
+    let template = document.getElementById('my-paragraph');
+    let app = document.getElementById('app');
+    let templateContent = template.content;
+    app.appendChild(templateContent);
+</script>
+</html>

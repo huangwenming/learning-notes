@@ -21,10 +21,10 @@
                     if (entry.entryType === 'longtask') {
                         window.__tti.e.concat(entry);
                     }
-                    // console.log(entry)
+                    console.log(entry)
                 }
             });
-            observer.observe({entryTypes: ['paint', 'longtask']});
+            observer.observe({entryTypes: ['paint', 'longtask', 'resource']});
         }
     </script>
     <meta charset="UTF-8">
