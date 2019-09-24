@@ -45,24 +45,23 @@ function requestHander(errorInfo, req, res) {
             let urlSplits = fileUrl.split('/');
             // 尝试读取本地文件，本地不成功，则读取线上的map文件，然后存储在本地
             let localFileUrl = urlSplits[urlSplits.length - 1]; // map文件路径
-            // console.log(localFileUrl);
+            // 过滤掉url上的参数
+            localFileUrl = localFileUrl.split('?')[0];
+            // map文件路径
+            // map文件优先从请求中传入的地址读取
+            const adressFromQuery = errorInfo.sourceMapAddress ? errorInfo.sourceMapAddress + localFileUrl : '';
+            let sourceMapAddress = adressFromQuery || resolve('./mapfiles/static/js/' + localFileUrl);
+
             try {
-                let originError = getOriginalPosition(resolve('./mapfiles/' + localFileUrl), errorInfo);
+                let originError = getOriginalPosition(sourceMapAddress, errorInfo);
                 saveToDb(originError, req, res);
-            }
-            catch(err) {
-                let stream = fs.createWriteStream(resolve('./mapfiles/' + localFileUrl));
+            } catch(err) {
+                let stream = fs.createWriteStream(sourceMapAddress);
                 console.log('start: 加载远程map文件到本地');
-                let remoteFileUrl = errorInfo.sourceMapAddress ? errorInfo.sourceMapAddress + localFileUrl : fileUrl;
-                request(remoteFileUrl).pipe(stream).on('close', function () {
+                request(fileUrl).pipe(stream).on('close', function () {
                     console.log('end: 加载远程map文件到本地');
-                    try {
-                        let originError = getOriginalPosition(resolve('./mapfiles/' + localFileUrl), errorInfo);
-                        saveToDb(originError, req, res);
-                    }
-                    catch (err) {
-                        saveToDb(errorInfo, req, res);
-                    }
+                    let originError = getOriginalPosition(sourceMapAddress, errorInfo);
+                    saveToDb(originError, req, res);
                 });
             }
 
@@ -78,32 +77,38 @@ function requestHander(errorInfo, req, res) {
 // 读取本地source-map文件，返回error信息的源信息
 function getOriginalPosition(sourceMapFile, errorInfo) {
     console.log('start: 尝试读取本地map文件');
-    let rawSourceMap = JSON.parse(fs.readFileSync(sourceMapFile, 'utf8'));
-    console.log('end: 尝试读取本地map文件');
+    let ret = {};
+    try {
+        let rawSourceMap = JSON.parse(fs.readFileSync(sourceMapFile, 'utf8'));
+        console.log('end: 尝试读取本地map文件');
 
-    console.log('start: 尝试解析本地map文件');
-    let consumer = sourceMap.SourceMapConsumer(rawSourceMap);
-    let ret = consumer.originalPositionFor({
-        line: parseInt(errorInfo.lineNo, 10), // 压缩后的行号
-        column: parseInt(errorInfo.columnNo, 10) // 压缩后的列号
-    });
-    console.log('end: 尝试解析本地map文件');
+        console.log('start: 尝试解析本地map文件');
+        let consumer = sourceMap.SourceMapConsumer(rawSourceMap);
+        ret = consumer.originalPositionFor({
+            // 压缩后的行号
+            line: parseInt(errorInfo.lineNo, 10),
+            // 压缩后的列号
+            column: parseInt(errorInfo.columnNo, 10)
+        });
+        console.log('end: 尝试解析本地map文件');
+    } catch (e) {
 
+    }
+    let timeInfo = new Date();
+    // 存储信息时，携带上存储的时间
     return {
         project: errorInfo.project,
         message: errorInfo.message,
-        script: ret.source,
-        columnNo: ret.column,
-        lineNo: ret.line,
-        stack: errorInfo.stack
+        script: ret.source || '',
+        columnNo: ret.column || '',
+        lineNo: ret.line || '',
+        stack: errorInfo.stack,
+        time: timeInfo.getFullYear() + '/' + (timeInfo.getMonth() + 1) + '/' + timeInfo.getDate() + ' ' + timeInfo.getHours() + ':' + timeInfo.getMinutes()
     };
 }
 
 // 存储error信息的源信息到相应的数据库
 function saveToDb(errorInfo, req, res) {
-    // 存储信息时，携带上存储的时间
-    let timeInfo = new Date();
-    errorInfo.time = timeInfo.getFullYear() + '/' + (timeInfo.getMonth() + 1) + '/' + timeInfo.getDate() + ' ' + timeInfo.getHours() + ':' + timeInfo.getMinutes();
     let result = saveErrorToDb(errorInfo, req, res);
     let saveResult = result.next();
     saveResult.value.then(function () {
@@ -144,19 +149,24 @@ function* getErrorListFromDb(condition, req, res) {
 
 // 响应请求
 function responseFunc(req, res, resposeData) {
+    const formatedResponseData = {
+        message: 'done',
+        errno: 0,
+        data: resposeData
+    }
     res.setHeader('Access-Control-Allow-Origin', '*');
     if (req.method === 'GET') {
         var _callback = req.query.callback;
         if (_callback) {
             res.type('text/javascript');
-            res.send(_callback + '(' + JSON.stringify(resposeData) + ')');
+            res.send(_callback + '(' + JSON.stringify(formatedResponseData) + ')');
         }
         else {
-            res.json(resposeData);
+            res.json(formatedResponseData);
         }
     }
     if (req.method === 'POST') {
-        res.json(resposeData);
+        res.json(formatedResponseData);
     }
 }
 

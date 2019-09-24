@@ -85,9 +85,9 @@ class ErrorReport {
             formatError.stack = error && error.stack ? error.stack : '';
         }
         // vue.config.errorHandler类型错误处理
-        if (type === 'vue') {
+        if (type === 'vue' || type === 'react') {
             let {line: lineNo, column: columnNo, sourceURL: script, message, stack} = errorObj;
-            // 如果vue不能正常解析error，则解析stack
+            // 如果vue、react不能正常解析error，则解析stack
             if (!(script && lineNo)) {
                 // 利用正则，筛出scriptURI, lineNo, columnNo
                 // todo 正则或许与浏览器有关系
@@ -101,6 +101,7 @@ class ErrorReport {
                     let index = regResult[1].indexOf(':' + lineNo);
                     if (index > -1) {
                         script = regResult[1].substring(0, index);
+                        script = script.split('?')[0];
                     }
                 }
             }
@@ -132,6 +133,14 @@ class ErrorReport {
         util.jsonp(url, errorObj, function (data) {
             console.log('error message has been send to server successfully');
         })
+    }
+
+    /**
+     * 上报需要解析stack的错误信息
+     * @param errorObj {Object} 错误信息
+     */
+    sendStackErrorInfo(errorObj) {
+        this.sendErrorInfo(this.formatError(this.supportType, errorObj));
     }
 }
 
