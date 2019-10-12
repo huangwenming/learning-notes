@@ -1,0 +1,202 @@
+@mixin position($position:relative){
+	position: $position;
+}
+// @mixin height-o {
+// 	height: auto;
+// 	overflow: hidden;
+// }
+@mixin flex($direction: row){
+	// display: flex;
+	// display: -ms-flexbox;
+	// display: -webkit-box;
+	// display: -webkit-flex;
+	display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+
+	flex-direction: $direction;
+    -webkit-flex-direction: $direction;
+}
+@mixin box-flex($num: 1){
+	-webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+}
+@mixin box-center($principal:center,$axis:center) {
+    -webkit-justify-content: $principal; //主轴方向上居中 flex-start center flex-end space-around
+    justify-content: $principal; //主轴方向上居中 flex-start center flex-end space-around
+    -webkit-align-items: $axis;
+    align-items: $axis;  //交叉轴上如何对齐
+}
+@mixin line-clamp($line:1) {
+	// display:flex 不支持line-clamp截断，display: box支持
+	display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+
+	-webkit-box-orient: vertical;
+	box-orient: vertical;
+	word-break: break-all;
+	overflow: hidden;
+	-webkit-line-clamp: $line;
+	line-clamp: $line;
+}
+
+@mixin line-gradient($width:1px,$height:1.3rem,$color:#dadada){
+	width: $width;
+	height:$height;
+	background: -moz-linear-gradient(top, white, $color 50%, white 100%);
+	background: -webkit-gradient(linear, 0 0, 0 100%, from(white), color-stop(50%, $color), color-stop(100%, white));
+}
+@mixin border-radius($radius) {
+	-webkit-border-radius: $radius;
+    -ms-border-radius: $radius;
+    border-radius: $radius;
+}
+@mixin ellipsis() {
+    overflow: hidden;
+    white-space: nowrap;
+	-ms-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+}
+
+
+
+// @mixin px2rem($property, $px-values, $baseline-px:16px, $support-for-ie:false){
+//     //Conver the baseline into rems
+//     $baseline-rem: $baseline-px / 1rem * 1;
+//     //Print the first line in pixel values
+//     // @if $support-for-ie {
+//     //     #{$property}: $px-values;
+//     // }
+//     //if there is only one (numeric) value, return the property/value line for it.
+//     @if type-of($px-values) == "number"{
+//         #{$property}: $px-values / $baseline-rem;
+//     }
+//     @else {
+//         //Create an empty list that we can dump values into
+//         $rem-values:();
+//         @each $value in $px-values{
+//             // If the value is zero or not a number, return it
+//             @if $value == 0 or type-of($value) != "number"{
+//                 $rem-values: append($rem-values, $value / $baseline-rem);
+//             }
+//         }
+//         // Return the property and its list of converted values
+//         #{$property}: $rem-values;
+//     }
+// }
+// @mixin font-dpr($font-size){
+//     font-size: $font-size;
+//
+//     [data-dpr="2"] & {
+//         font-size: $font-size * 2;
+//     }
+//
+//     [data-dpr="3"] & {
+//         font-size: $font-size * 3;
+//     }
+// }
+
+
+@mixin arrow($direction:right, $size:20px, $border:2px, $color:#c8cacc) {
+	display: inline-block;
+	-webkit-transform: rotate(45deg);
+	transform: rotate(45deg);
+	border: $border solid $color;
+	height: $size;
+	width: $size;
+	vertical-align: 0px;
+    @if $direction == top {
+		border-right: 0;
+		border-bottom: 0;
+		margin: $size/2 $size/2 0 0;
+    }
+    @else if $direction == bottom {
+		border-left: 0;
+		border-top: 0;
+		margin: 0 $size/2 $size/2 0;
+    }
+    @else if $direction == right {
+		border-left: 0;
+		border-bottom: 0;
+		margin-right: $size/2;
+    }
+    @else if $direction == left {
+		border-right: 0;
+		border-top: 0;
+		margin-left: $size/2;
+    }
+}
+
+@mixin triangle($direction:up, $width:14px, $height:18px, $color:#b7b7b7) {
+	font-size: 0;
+	line-height: 0;
+	width: 0;
+	height: 0;
+	vertical-align: middle;
+	display: inline-block;
+	@if $direction == up {
+		border-color: transparent transparent $color;
+		border-style: dashed dashed solid;
+		border-width: 0 $width $height;
+    }
+    @else if $direction == down {
+		border-color: $color transparent transparent;
+		border-style: solid dashed dashed;
+		border-width: $height $width 0;
+    }
+}
+
+
+@mixin border1px($direction:all,$color:#e1e1e1,$padding:1px){
+	background-size: 100% 1px,1px 100% ,100% 1px, 1px 100%;
+    background-repeat: no-repeat;
+    background-position: top, right top, bottom, left top;
+
+    border: none;
+	@if $direction == all {
+		background-image:
+            linear-gradient(180deg, $color, $color 50%, transparent 50%),
+            linear-gradient(270deg, $color, $color 50%, transparent 50%),
+            linear-gradient(0deg, $color, $color 50%, transparent 50%),
+            linear-gradient(90deg, $color, $color 50%, transparent 50%);
+		padding: $padding;
+	}
+	@else if $direction == bottom {
+		background-image:
+            linear-gradient(180deg, transparent, transparent 50%, transparent 50%),
+            linear-gradient(270deg, $color, $color 50%, transparent 50%),
+            linear-gradient(0deg, $color, $color 50%, transparent 50%),
+            linear-gradient(90deg, $color, $color 50%, transparent 50%);
+		padding-bottom: $padding;
+	}
+	@else if $direction == top {
+		background-image:
+            linear-gradient(180deg, $color, $color 50%, transparent 50%),
+            linear-gradient(270deg, $color, $color 50%, transparent 50%),
+            linear-gradient(0deg, transparent, transparent 50%, transparent 50%),
+            linear-gradient(90deg, $color, $color 50%, transparent 50%);
+		padding-top: $padding;
+	}
+	@else if $direction == left {
+		background-image:
+            linear-gradient(180deg, $color, $color 50%, transparent 50%),
+            linear-gradient(270deg, transparent, transparent 50%, transparent 50%),
+            linear-gradient(0deg, $color, $color 50%, transparent 50%),
+            linear-gradient(90deg, $color, $color 50%, transparent 50%);
+		padding-left: $padding;
+	}
+	@else if $direction == right {
+		background-image:
+            linear-gradient(180deg, $color, $color 50%, transparent 50%),
+            linear-gradient(270deg, $color, $color 50%, transparent 50%),
+            linear-gradient(0deg, $color, $color 50%, transparent 50%),
+            linear-gradient(90deg, transparent, transparent 50%, transparent 50%);
+		padding-right: $padding;
+	}
+
+}
