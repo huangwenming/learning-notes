@@ -1,0 +1,14 @@
+# 搭建基于Node的https服务
+## 弄明白https原理
+需要阅读一下./key-pem-crt/createKey.sh文件，里面介绍了https工作原理
+
+## 生成证书和私钥文件
+sh ./key-pem-crt/createKey.sh
+
+注意设置的站点域名，我本地设置的是test.baidu.com
+
+## 搭建https服务
+node app.js
+
+## 通过浏览器访问服务
+需要信任一下证书，chrome会判定该链接不是一个 private connection

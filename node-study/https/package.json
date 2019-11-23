@@ -1,0 +1,19 @@
+{
+  "name": "node-https",
+  "version": "1.0.0",
+  "description": "a simple and clear demo that shows how to build a https service based on node",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "node",
+    "https"
+  ],
+  "author": "huangwenming",
+  "license": "ISC",
+  "dependencies": {
+    "fs": "0.0.2",
+    "https": "^1.0.0"
+  }
+}
