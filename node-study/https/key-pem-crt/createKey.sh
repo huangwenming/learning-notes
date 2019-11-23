@@ -1,5 +1,5 @@
 #!/bin/bash
-#TLS/SSL是一个公钥/私钥结构，每个服务器/客户端都有自己的公钥/私钥，在建立安全传输之前，
+#TLS/SSL是一个公钥/私钥结构，每个服务器/客户端都有自己的公钥/私钥，在建立安全传输之前(握手之后)，
 #服务器和客户端之间需要交换公钥
 
 #使用openssl生成客户端、服务器的私钥
@@ -38,5 +38,5 @@ openssl x509 -req -in ca.csr -signkey ca.key -out ca.crt
 openssl req -new -key server.key -out server.csr
 
 #2.借助CA签名生成生成证书
-openssl x509 -req -CA ca.crt -CAkey ca.key -CAcreateserial -in server.csr -out server.crt
+openssl x509 -req -CA ca.crt -CAkey ca.key -days 1365 -CAcreateserial -in server.csr -out server.crt
 

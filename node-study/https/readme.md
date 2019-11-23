@@ -1,4 +1,4 @@
-# 搭建基于Node的https服务
+# 搭建基于Node的https/http2服务
 ## 弄明白https原理
 需要阅读一下./key-pem-crt/createKey.sh文件，里面介绍了https工作原理
 
@@ -12,3 +12,7 @@ node app.js
 
 ## 通过浏览器访问服务
 需要信任一下证书，chrome会判定该链接不是一个 private connection
+
+
+## 搭建http2服务
+node http2app.js
