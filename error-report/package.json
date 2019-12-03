@@ -1,20 +1,32 @@
 {
-  "name": "custom-error-report",
-  "version": "1.0.5",
-  "description": "Capture exceptions in front-end programs and upload the exceptions to the specified server.",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/huangwenming/learning-notes/tree/master/error-report"
-  },
-  "keywords": [
-    "error",
-    "exceptions",
-    "upload"
-  ],
-  "author": "huangwenming@baidu.com",
-  "license": "ISC"
+    "name": "custom-error-report",
+    "version": "1.0.6",
+    "description": "Capture exceptions in front-end programs and upload the exceptions to the specified server.",
+    "main": "dist/index.esm.js",
+    "scripts": {
+        "build:esm": "rollup -c rollup.config.js --environment TARGET:esm",
+        "build:cjs": "rollup -c rollup.config.js --environment TARGET:cjs-prod",
+        "build:umd": "rollup -c rollup.config.js --environment TARGET:umd-prod",
+        "dev:cjs": "rollup -c rollup.config.js --environment TARGET:cjs-dev",
+        "dev:umd": "rollup -c rollup.config.js --environment TARGET:umd-dev"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.5.5",
+        "@babel/preset-env": "^7.5.5",
+        "babel-preset-latest": "^6.24.1",
+        "rollup": "^1.17.0",
+        "rollup-plugin-babel": "^4.3.3",
+        "rollup-plugin-uglify": "^6.0.2"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/huangwenming/learning-notes/tree/master/error-report"
+    },
+    "keywords": [
+        "error",
+        "exceptions",
+        "upload"
+    ],
+    "author": "huangwenming@baidu.com",
+    "license": "ISC"
 }
