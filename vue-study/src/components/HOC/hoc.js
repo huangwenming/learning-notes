@@ -5,7 +5,7 @@
  * 高阶组件的特点：
  * 1.不修改传入组件本身，只是将组件渲染出来，此处不同于mixin，mixin是修改了组件本身
  * 2.需要将组件本身的props、attrs、event、slot等进行透传
- * 3.在vue中传入的不是组件本身，而是组件的配置对象，
+ * 3.在vue中传入的不是组件本身，而是组件的配置对象
  */
 
 export default function withConsole(comp) {

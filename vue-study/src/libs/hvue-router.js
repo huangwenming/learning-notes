@@ -82,6 +82,7 @@ class Hrouter {
         // 渲染对应的component到div中
         $vue.component('router-view', {
             render(h) {
+                // todo 需要知道router-view的嵌套深度
                 const comp = this.$router.getCurrentComponent.call(this.$router);
                 return h(comp);
             }
