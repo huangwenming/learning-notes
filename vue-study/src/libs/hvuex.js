@@ -1,6 +1,11 @@
 /**
  * @file custom a lite vuex
  * @author hwm
+ * 具体用法
+ * Vue.use(Hvuex);
+ * const store = new Hvuex.Store{options}
+ * new Vue({store})
+ * 在组件中可以使用this.$store来获取store实例
  */
 
 let $vue;
