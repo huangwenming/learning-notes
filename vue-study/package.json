@@ -13,18 +13,6 @@
             "commit-msg": "commitlint -e $GIT_PARAMS"
         }
     },
-    "config": {
-        "commitizen": {
-            "path": "./node_modules/cz-conventional-changelog",
-            "maxHeaderWidth": 200,
-            "maxLineWidth": 100,
-            "defaultType": "",
-            "defaultScope": "",
-            "defaultSubject": "",
-            "defaultBody": "",
-            "defaultIssues": "MapCarServ-3277"
-        }
-    },
     "dependencies": {
         "core-js": "^3.3.2",
         "vue": "^2.6.10",
