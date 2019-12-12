@@ -1,6 +1,6 @@
 {
     "path": "cz-conventional-changelog",
-    "maxHeaderWidth": 200,
+    "maxHeaderWidth": 300,
     "maxLineWidth": 100,
     "defaultType": "",
     "defaultScope": "",

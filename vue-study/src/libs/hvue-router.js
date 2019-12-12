@@ -19,7 +19,8 @@ class Hrouter {
     constructor(options) {
         this.$options = options;
         // 获取routerMap
-        this.$routerMap = this.generateRouterMap(options.routes);
+        // this.$routerMap = this.generateRouterMap(options.routes);
+        this.$depthComs = this.generateDepthCom(options.routes);
         // 获取mode
         this.$mode = options.mode || 'hash';
         // 当前的路径，设置为可响应式的数据，用于刷新render函数
@@ -42,8 +43,29 @@ class Hrouter {
         let mapObj = {};
         routes.forEach(item => {
             mapObj[item.path] = item;
+            // 是否有子路径
+            if (item.children) {
+                mapObj[item.path].children = this.generateRouterMap(item.children);
+            }
         });
         return mapObj;
+    }
+    generateDepthCom(routes) {
+        const depthComs = {};
+        function generateDepth(parentPath, routes, depth) {
+            routes.forEach(item => {
+                const currentPath = parentPath + item.path;
+                depthComs[depth] = depthComs[depth] || {};
+                depthComs[depth][currentPath] = item;
+                // 是否有子路径
+                if (item.children) {
+                    const childDepth = depth + 1;
+                    generateDepth(currentPath, item.children, childDepth);
+                }
+            });
+        }
+        generateDepth('', routes, 0);
+        return depthComs;
     }
     bindEvent() {
         // 绑定hashchange
@@ -53,14 +75,17 @@ class Hrouter {
     hashChangeHandler() {
         this.$data.path = location.hash.split('#')[1] || '/';
     }
-    getCurrentComponent() {
+    getCurrentComponent(depth) {
+        console.log('router deepth：', depth);
         let com = null;
         let self = this;
-        Object.keys(this.$routerMap).forEach(key => {
-            if (key === self.$data.path) {
-                com = self.$routerMap[key].component;
+        let routerByDepth = this.$depthComs[depth];
+        Object.keys(routerByDepth).forEach(key => {
+            if (self.$data.path.indexOf(key) === 0 && key !== '/') {
+                com = routerByDepth[key].component;
             }
         });
+        com = com || this.$depthComs[0]['/'].component;
         return com;
     }
     registerCom() {
@@ -81,10 +106,32 @@ class Hrouter {
         // <div>corresponding component</div>
         // 渲染对应的component到div中
         $vue.component('router-view', {
-            render(h) {
+            functional: true,
+            props: {
+                name: {
+                    type: String,
+                    default: 'default'
+                }
+            },
+            render(h, { props, children, parent, data }) {
+                data.props = Object.assign({}, props);
+                data.routerView = true;
                 // todo 需要知道router-view的嵌套深度
-                const comp = this.$router.getCurrentComponent.call(this.$router);
-                return h(comp);
+                let depth = 0;
+                let router = parent.$router;
+                while (parent && parent._routerRoot !== parent) {
+                    const vnodeData = parent.$vnode && parent.$vnode.data
+                    if (vnodeData) {
+                        if (vnodeData.routerView) {
+                            depth++
+                        }
+                    }
+                    parent = parent.$parent
+                }
+
+                console.log(depth);
+                const comp = router.getCurrentComponent.call(router, depth);
+                return h(comp, data, children);
             }
         });
     }

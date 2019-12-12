@@ -3,6 +3,7 @@
       <h1>This is an about page</h1>
       <h2>下面是个高阶组件：高阶组件为子组件赋上mounted时console能力</h2>
       <enhance-com @showColorValue="showColorValue" ></enhance-com>
+      <router-view></router-view>
   </div>
 </template>
 <script>
