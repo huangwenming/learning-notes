@@ -1,0 +1,19 @@
+# Use root/123456 as user/password credentials
+# docker-compose -f stack.yml up, then visit localhost:8090 to use adminer
+
+# file version reference https://docs.docker.com/compose/compose-file/
+version: '3.7'
+
+services:
+
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+        - 8090:8080
+
+    db:
+        image: mysql
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: 123456
