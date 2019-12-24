@@ -3,9 +3,10 @@
 需要阅读一下./key-pem-crt/createKey.sh文件，里面介绍了https工作原理
 
 ## 生成证书和私钥文件
-sh ./key-pem-crt/createKey.sh
+cd key-pem-crt
+sh createKey.sh
 
-注意设置的站点域名，我本地设置的是test.baidu.com
+**注意设置的站点域名，我本地设置的是test.baidu.com(使用者应该修改成自己站点的域名)**
 
 ## 搭建https服务
 node app.js
