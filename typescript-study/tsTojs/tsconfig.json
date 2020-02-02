@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "outDir": "./built",
+        // 允许入口文件可以是js
+        "allowJs": true,
+        "module": "commonjs",
+        // 将目标语法转成es5
+        "target": "es5"
+    },
+    "include": [
+        "./src"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

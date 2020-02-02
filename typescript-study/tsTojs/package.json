@@ -1,0 +1,13 @@
+{
+    "name": "tsTojs",
+    "version": "1.0.0",
+    "scripts": {
+        "build": "webpack"
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "source-map-loader": "^0.2.4",
+        "ts-loader": "^6.2.1",
+        "webpack": "^4.41.5"
+    }
+}
