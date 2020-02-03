@@ -25,6 +25,8 @@ var initQrcode = function(url) {
 		'nuoweb': 'bainuo://web?url=' + encodeURIComponent(url),
         'lbc': 'baidumap://map/component?comName=lbc&target=webshell_login_page&param=' +
         encodeURIComponent(JSON.stringify({'url':url})),
+        'trans': 'baidumap://map/cost_share?url=' + encodeURIComponent(url) +
+        '&transparentWeb=0&navigationStatus=2&hiddenBackBtn=0&hiddenTitle=1'
 	};
 	// 正常浏览器url
 	jQuery('#qrcodeWeb').qrcode({
@@ -59,6 +61,10 @@ var initQrcode = function(url) {
     // lbc壳浏览器url
     jQuery('#qrcodeLbc').qrcode({
         text: pre.lbc
+    });
+    // 透明壳
+    jQuery('#qrcodeTrans').qrcode({
+        text: pre.trans
     });
     var util = {
         hasClass: function (obj, cls) {
