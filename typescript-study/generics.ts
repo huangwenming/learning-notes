@@ -45,7 +45,7 @@ let output = identity2<string>("myString");  // type of output will be 'string'
 let output1 = identity2("myString");  // type of output will be 'string'
 
 
-// 使用泛型
+// 接口使用泛型
 interface Result<T> {
     ok: 0 | 1;
     data: T;
