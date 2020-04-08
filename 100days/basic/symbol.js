@@ -1,3 +1,8 @@
+/*
+ * @Author: huangwenming
+ * @Date: 2020-04-08 11:43:20
+ */
+
 /**
  * @file Symbol类型介绍
  * @author hwm
@@ -24,7 +29,49 @@ obj[{}] = 'others';
 // 打印： {name: 'kitty', age: 2,  '3': 3, '[object Object]': 'others'}
 console.log(obj);
 
-// 用途1：可作为对象的属性名，并避免属性名重名冲突
+// 用途1：由于唯一不可修改，可作为对象的属性名，并避免属性名重名冲突
+// 场景：多个类库，可以使用Symbol来作为命名空间，避免重名，带来赋值冲突
+// 举个例子
+const library1property = Symbol('lib1');
+function lib1tag(obj) {
+    obj[library1property] = 42;
+}
+const library2property = Symbol('lib2');
+function lib2tag(obj) {
+    obj[library2property] = 369;
+}
+// 在举个node的例子
+// 在node中如果使用console.log(obj), 如果obj中有一个inspect方法，则打印的内容是inspect方法的返回值
+// node 8.9.0中 打印：3
+// node 12.0.0中 打印：{ inspect: [Function: inspect] }
+console.log({
+    inspect: function () {
+        return 3;
+    }
+});
+
+// 后来在node10之后，require('util').inspect.custom中引入了Symbol解决了命名冲突问题
+// inspect方法的名字在全局注册，可以通过Symbol.for('nodejs.util.inspect.custom')来获取
+const inspect = Symbol.for('nodejs.util.inspect.custom');
+
+class Password {
+    constructor(value) {
+        this.value = value;
+    }
+
+    toString() {
+        return 'xxxxxxxx';
+    }
+
+    [ inspect]() {
+        return `Password <${this.toString()}>`;
+    }
+}
+const password = new Password('r0sebud');
+// 打印： Password <xxxxxxxx>
+console.log(password);
+
+// 用途2: 模拟私有属性
 // 举个例子
 const obj = {};
 const sym = Symbol();
@@ -36,6 +83,9 @@ console.log(obj);
 console.log(sym in obj);
 // foo
 console.log(obj[sym]);
+
+// Symbol类型属性不能被Object.keys()获取到，类似与Object.defineProperty()时设置enumerable特性为false；
+// 但是可以两者均可以通过Reflect.ownKeys()获取到，因此并不是严格意义上的私有属性
 // ['bar']
 console.log(Object.keys(obj));
 // ['bar', Symbol()]
@@ -46,4 +96,5 @@ console.log(Reflect.ownKeys(obj));
 
 // 参考资料
 // docs： https://medium.com/intrinsic/javascript-symbols-but-why-6b02768f4a5c
+// docs： http://nodejs.cn/api/util.html#util_util_inspect_custom
 // book：ES6标准入门：https://u.jd.com/MqVdGT
