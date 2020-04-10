@@ -1,8 +1,3 @@
-/*
- * @Author: huangwenming
- * @Date: 2020-04-08 11:43:20
- */
-
 /**
  * @file Symbol类型介绍
  * @author hwm
