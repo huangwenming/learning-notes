@@ -72,3 +72,7 @@ promise1.then(function (value) {
 });
 // expected output: [object CPromise]
 console.log(promise1);
+
+// 参考资料
+// docs： https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise
+// book：ES6标准入门：https://u.jd.com/MqVdGT
