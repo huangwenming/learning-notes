@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>绘制三角形</title>
+</head>
+<body>
+<canvas id="webgl-canvas" width="500" height="500"></canvas>
+<script src="./webgl-debug.js"></script>
+<script id="shader-vs" type="x-shader/x-vertex">
+  attribute vec3 aVertexPosition;
+  attribute vec4 aVertexColor;
+  uniform mat4 uMVMatrix;
+  uniform mat4 uPMatrix;
+  varying highp vec4 vColor;
+  void main(void){
+    gl_Position=uPMatrix*uMVMatrix*vec4(aVertexPosition,1.0);
+    vColor=aVertexColor;
+  }
+</script>
+<script id="shader-fs" type="x-shader/x-vertex">
+  varying highp vec4 vColor;
+  void main(void){
+    gl_FragColor=vColor;
+  }
+</script>
+<script>
+  // 1.获取webgl context
+  const canvas = document.getElementById("webgl-canvas");
+  // const gl = getGLContext(canvas);
+  const gl = WebGLDebugUtils.makeDebugContext(getGLContext(canvas));
+  // 2.初始化着色器
+  initShader(gl);
+  // 3.数据缓冲 与 gl变量赋值
+  // 3.1 顶点缓冲 
+  const vertices = [1.0, 0, 0, 0, 1.0, 0, 0, 0 , 1.0];
+  initVertexBuffer(vertices);
+  // 3.2 颜色缓存
+  const verticeColors = [1.0, 0, 0, 1.0, 0, 1.0, 0, 1.0, 0, 0 , 1.0, 1.0];
+  initColorBuffer(verticeColors);
+  // 3.3 设置gl uniform变量
+  const uMVMatrix = gl.getUniformLocation(gl.program, 'uMVMatrix');
+  gl.uniformMatrix4fv(uMVMatrix, false, [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]);
+  const uPMatrix = gl.getUniformLocation(gl.program, 'uPMatrix');
+  gl.uniformMatrix4fv(uPMatrix, false, [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]);
+
+  // 4.绘制
+  const verticesCount = 3;
+  gl.clearColor(0.0, 0.0, 0.0, 1.0);
+  gl.clear(gl.COLOR_BUFFER_BIT);
+  gl.drawArrays(gl.TRIANGLES, 0, verticesCount);
+
+  function initVertexBuffer(vertices) {
+    const verticesArray = new Float32Array(vertices);
+    const vertexBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, verticesArray, gl.STATIC_DRAW);
+    const aVertexPostion = gl.getAttribLocation(gl.program, 'aVertexPosition');
+    gl.vertexAttribPointer(aVertexPostion, 3, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(aVertexPostion);
+  }
+  function initColorBuffer(verticeColors) {
+    const colorArray = new Float32Array(verticeColors);
+    const colorBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, colorArray, gl.STATIC_DRAW);
+    const aVertexColor = gl.getAttribLocation(gl.program, 'aVertexColor');
+    gl.vertexAttribPointer(aVertexColor, 4, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(aVertexColor);
+  }
+  function initShader(gl) {
+    const vertexShaderScript = document.getElementById("shader-vs");
+    const fragmentShaderScript = document.getElementById("shader-fs");
+    const vertexShaderSource = getShaderSource(vertexShaderScript);
+    const fragmentShaderSource = getShaderSource(fragmentShaderScript);
+    console.log(vertexShaderSource);
+    console.log(fragmentShaderSource);
+
+    const vertexShader = gl.createShader(gl.VERTEX_SHADER);
+    const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+    
+    gl.shaderSource(vertexShader, vertexShaderSource);
+    gl.compileShader(vertexShader);
+    if (!gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS)) {
+      console.log("Failed to compile vertexShader");
+      return false;
+    }
+
+    gl.shaderSource(fragmentShader, fragmentShaderSource);
+    gl.compileShader(fragmentShader);
+    if (!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS)) {
+      console.log("Failed to compile fragmentShader");
+      return false;
+    }
+
+    gl.program = gl.createProgram();
+    gl.attachShader(gl.program, vertexShader);
+    gl.attachShader(gl.program, fragmentShader);
+
+    gl.linkProgram(gl.program);
+    if (!gl.getProgramParameter(gl.program, gl.LINK_STATUS)) {
+      console.log("Failed to setup shaders");
+      return false;
+    }
+    gl.useProgram(gl.program);
+    return gl.program;
+  }
+  function getShaderSource(script) {
+    let shaderSource = '';
+    let currentChild = script.firstChild;
+    while (currentChild) {
+      if (currentChild.nodeType === 3) {
+        shaderSource += currentChild.textContent;
+      }
+      currentChild = currentChild.nextSibling;
+    }
+    return shaderSource;
+  }
+  function getGLContext(canvas) {
+    const names = ["webgl", "experimental-webgl"];
+    let context;
+    for (let i=0; i < names.length; i++) {
+      try {
+        context = canvas.getContext(names[i]);
+      } catch(e) {}
+      if (context) {
+        break;
+      }
+    }
+    if (context) {
+      context.viewportWidth = canvas.width;
+      context.viewportHeight = canvas.height;
+    } else {
+      alert("Failed to create WebGL context!");
+    }
+    return context;
+  }
+</script>
+</body>
+</html>
