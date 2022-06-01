@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>three.js webgl - GLTFloader</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link type="text/css" rel="stylesheet" href="main.css">
+	</head>
+
+	<body>
+		<div id="info">
+			<a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> - GLTFLoader<br />
+			Battle Damaged Sci-fi Helmet by
+			<a href="https://sketchfab.com/theblueturtle_" target="_blank" rel="noopener">theblueturtle_</a><br />
+			<a href="https://hdrihaven.com/hdri/?h=royal_esplanade" target="_blank" rel="noopener">Royal Esplanade</a> by <a href="https://hdrihaven.com/" target="_blank" rel="noopener">HDRI Haven</a>
+		</div>
+
+		<!-- Import maps polyfill -->
+		<!-- Remove this when import maps will be widely supported -->
+		<script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+
+		<script type="importmap">
+			{
+				"imports": {
+					"three": "./build/three.module.js"
+				}
+			}
+		</script>
+
+		<script type="module">
+
+			import * as THREE from 'three';
+
+			import { OrbitControls } from './jsm/controls/OrbitControls.js';
+			import { GLTFLoader } from './jsm/loaders/GLTFLoader.js';
+			import { RGBELoader } from './jsm/loaders/RGBELoader.js';
+
+			let camera, scene, renderer;
+
+			init();
+			render();
+
+			function init() {
+
+				const container = document.createElement( 'div' );
+				document.body.appendChild( container );
+
+				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.25, 30000 );
+				camera.position.set( - 10000, 10000, 10000 );
+
+				scene = new THREE.Scene();
+        // 创建skybox
+        new THREE.CubeTextureLoader()
+          .setPath('textures/cube/')
+          .load(['xp.jpg', 'xn.jpg', 'yp.jpg', 'yn.jpg', 'zp.jpg', 'zn.jpg'], function(texture) {
+            scene.background = texture;
+						scene.environment = texture;
+						
+						// // 创建球体，并把背景纹理赋值给球体材质的环境纹理envmap
+						// var geometry = new THREE.BoxGeometry(1000, 1000, 1000); //立方体
+            // // 材质对象Material
+            // var material = new THREE.MeshPhongMaterial({
+            //   //网格模型设置颜色，网格模型颜色和环境贴图会进行融合计算
+            //   // color:0xff0000,
+            //   envMap: texture, //设置环境贴图
+            //   // 环境贴图反射率   控制环境贴图对被渲染三维模型影响程度
+            //   // reflectivity: 0.1,
+            // });
+            // console.log(texture.image);
+            // var mesh = new THREE.Mesh(geometry, material); //网格模型对象Mesh
+            // scene.add(mesh); //网格模型添加到场景中
+
+						// 添加中间显示的球体
+						var geometry = new THREE.SphereBufferGeometry( 1000, 100, 50 );
+						//将纹理的环境纹理设置为scene的背景纹理
+						var sphereMaterial = new THREE.MeshLambertMaterial( { envMap: scene.background } );
+						var sphereMesh = new THREE.Mesh( geometry, sphereMaterial );
+						scene.add( sphereMesh );
+
+						render();
+          })
+					
+					// 初始化光源
+					scene.add(new THREE.AmbientLight(0xffffff));
+					var light = new THREE.DirectionalLight(0xffffff);
+					light.position.set(0, 20, -20 );
+					light.castShadow = true;
+					light.shadow.camera.top = 10;
+					light.shadow.camera.bottom = -10;
+					light.shadow.camera.left = -10;
+					light.shadow.camera.right = 10;
+					//告诉平行光需要开启阴影投射
+					light.castShadow = true;
+
+				renderer = new THREE.WebGLRenderer( { antialias: true } );
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				renderer.toneMapping = THREE.ACESFilmicToneMapping;
+				renderer.toneMappingExposure = 1;
+				renderer.outputEncoding = THREE.sRGBEncoding;
+				container.appendChild( renderer.domElement );
+
+				const controls = new OrbitControls( camera, renderer.domElement );
+				controls.addEventListener( 'change', render ); // use if there is no animation loop
+				controls.minDistance = 1;
+				controls.maxDistance = 20000;
+				controls.target.set( 0, 0, - 0.2 );
+				controls.update();
+
+				window.addEventListener( 'resize', onWindowResize );
+
+			}
+
+			function onWindowResize() {
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+				render();
+
+			}
+
+			//
+
+			function render() {
+
+				renderer.render( scene, camera );
+
+			}
+
+		</script>
+
+	</body>
+</html>
