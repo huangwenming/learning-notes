@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>three.js webgl - GLTFloader</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link type="text/css" rel="stylesheet" href="main.css">
+	</head>
+
+	<body>
+		<!-- <div id="info">
+			<a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> - GLTFLoader<br />
+			Battle Damaged Sci-fi Helmet by
+			<a href="https://sketchfab.com/theblueturtle_" target="_blank" rel="noopener">theblueturtle_</a><br />
+			<a href="https://hdrihaven.com/hdri/?h=royal_esplanade" target="_blank" rel="noopener">Royal Esplanade</a> by <a href="https://hdrihaven.com/" target="_blank" rel="noopener">HDRI Haven</a>
+		</div> -->
+
+		<!-- Import maps polyfill -->
+		<!-- Remove this when import maps will be widely supported -->
+		<script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+
+		<script type="importmap">
+			{
+				"imports": {
+					"three": "./build/three.module.js"
+				}
+			}
+		</script>
+
+		<script type="module">
+
+			import * as THREE from 'three';
+
+			import { OrbitControls } from './jsm/controls/OrbitControls.js';
+			import { GLTFLoader } from './jsm/loaders/GLTFLoader.js';
+			import { RGBELoader } from './jsm/loaders/RGBELoader.js';
+
+			let camera, scene, renderer;
+			let dirLight, ambLight;
+			let wheelFL, wheelFR, wheelBL, wheelBR;
+			let brakeFL, brakeFR, brakeBL, brakeBR;
+
+			init();
+
+			function initLight() {
+				dirLight = new THREE.DirectionalLight(0x000000, 0.7);
+        dirLight.position.set(0, 1, 1);
+        scene.add(dirLight);
+        ambLight = new THREE.AmbientLight(0x000000, 0.5);
+        scene.add(ambLight);
+			}
+			function initSkybox() {
+
+			}
+
+			function init() {
+
+				const container = document.createElement( 'div' );
+				document.body.appendChild( container );
+
+				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 20 );
+				camera.position.set( 10, 3, 0 );
+
+				scene = new THREE.Scene();
+				// FF91.Length = 5.250; // From nose to tail
+    		// FF91.Width = 2.283; // From L to R mirror
+    		const wheelTrack = 1.72; // L to R wheels
+    		const wheelBase = 3.200; // F to B wheels
+    		const wheelDiam = 0.780; // Wheel diameter
+        // 天空盒子
+        new THREE.CubeTextureLoader()
+          .setPath('textures/cube/')
+          .load(['xp.jpg', 'xn.jpg', 'yp.jpg', 'yn.jpg', 'zp.jpg', 'zn.jpg'], function(texture) {
+            
+            scene.background = texture;
+						scene.environment = texture;
+
+						render();
+          })
+				// 车轮
+				const loader1 = new GLTFLoader().setPath( 'models/gltf/wheel/' );
+					loader1.load( 'wheel.gltf', function ( gltf ) {
+						gltf.scene.scale.set(0.0005, 0.0005, 0.0005);
+						console.log('wheel gltf', gltf);
+						// 前轮-左
+						wheelFL = gltf.scene.children[0];
+						wheelFL.position.set(wheelBase, wheelDiam / 2, wheelTrack / -2);
+						const colors = {
+							RimsBlack: 0x111111,
+							RimsSilver: 0x999999,
+							Tire: 0x202020
+						}
+						wheelFL.children.forEach(function (item) {
+							// console.log(item);
+							item.material = new THREE.MeshStandardMaterial({
+								color: colors[item.name],
+								shininess: 50,
+            		side: THREE.DoubleSide
+							});
+							item.geometry.applyMatrix4(new THREE.Matrix4().set(0.000788, 0, 0, -0.3939, 0, 0, 0.000788, -0.3939, 0, -0.000788, 0, 0.15, 0, 0, 0, 1))
+							console.log(item);
+						})
+						// 前轮-右
+						wheelFR = wheelFL.clone();
+						wheelFR.position.set(wheelBase, wheelDiam / 2, wheelTrack / 2);
+						// 后轮-左
+						wheelBL = wheelFL.clone();
+						wheelBL.position.set(0, wheelDiam / 2, wheelTrack / -2);
+						// 后轮-右
+						wheelBR = wheelFL.clone();
+						wheelBR.position.set(0, wheelDiam / 2, wheelTrack / 2);
+
+            scene.add( wheelFL );
+						scene.add( wheelFR );
+						scene.add( wheelBL );
+						scene.add( wheelBR );
+
+						// brake:前-左
+						brakeFL = gltf.scene.children[0];
+						brakeFL.position.set(wheelBase, wheelDiam / 2, wheelTrack / -2);
+						const brakeColors = {
+							Disc: 0x555555,
+							Pad: 0x333333
+						}
+						brakeFL.children.forEach(function (item) {
+							// console.log(item);
+							item.material = new THREE.MeshStandardMaterial({
+								color: brakeColors[item.name],
+								shininess: 50,
+								flatShading: true
+							});
+							item.geometry.applyMatrix4(new THREE.Matrix4().set(0.000788, 0, 0, -0.3939, 0, 0, 0.000788, -0.3939, 0, -0.000788, 0, 0.15, 0, 0, 0, 1))
+							console.log(item);
+						})
+						// brake:前-右
+						brakeFR = brakeFL.clone();
+						brakeFR.position.set(wheelBase, wheelDiam / 2, wheelTrack / 2);
+						// 后轮-左
+						brakeBL = brakeFL.clone();
+						brakeBL.position.set(0, wheelDiam / 2, wheelTrack / -2);
+						// 后轮-右
+						brakeBR = brakeFL.clone();
+						brakeBR.position.set(0, wheelDiam / 2, wheelTrack / 2);
+						scene.add( brakeFL );
+						scene.add( brakeFR );
+						scene.add( brakeBL );
+						scene.add( brakeBR );
+              
+					} ); 
+				// 车身	
+        const loader = new GLTFLoader().setPath( 'models/gltf/body/' );
+				loader.load( 'body.gltf', function ( gltf ) {
+          console.log('body gltf', gltf);
+					gltf.scene.scale.set(0.0005, 0.0005, 0.0005);
+				  gltf.scene.position.set(1.56, 0, 0);
+
+          const bodyBlack = gltf.scene.children[0].children[0];  
+          bodyBlack.material = new THREE.MeshStandardMaterial(
+						{
+							color: 0x222222,
+            	reflectivity: 0.8,
+						}
+					);
+
+          const bodySilver = gltf.scene.children[0].children[1];    
+          bodySilver.material = new THREE.MeshStandardMaterial({
+						color: 0xbbbbbb,
+						metalness: 0.7,
+						roughness: 0.7,
+					});
+              
+          const glassTinted= gltf.scene.children[0].children[5];
+          glassTinted.material = new THREE.MeshStandardMaterial({
+						color: 0x666666,
+            reflectivity: 1,
+					});
+              
+
+          new THREE.CubeTextureLoader()
+            .setPath('textures/cube/reflection/')
+            .load(['xp.jpg', 'xn.jpg', 'yp.jpg', 'yn.jpg', 'zp.jpg', 'zn.jpg'], function(texture) {
+            	glassTinted.material.envMap = texture;
+							bodyBlack.material.envMap = texture;
+            })
+
+
+					scene.add( gltf.scene );
+				});
+
+        
+
+				initLight();
+
+				renderer = new THREE.WebGLRenderer( { antialias: true } );
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				renderer.toneMapping = THREE.ACESFilmicToneMapping;
+				renderer.toneMappingExposure = 1;
+				renderer.outputEncoding = THREE.sRGBEncoding;
+				container.appendChild( renderer.domElement );
+
+				const controls = new OrbitControls( camera, renderer.domElement );
+			// controls.addEventListener( 'change', render ); // use if there is no animation loop
+				controls.minDistance = 7;
+				controls.maxDistance = 20;
+				controls.target.set( 0, 0, - 0.2 );
+				controls.update();
+
+				window.addEventListener( 'resize', onWindowResize );
+
+				render(window.performance.now())
+			}
+
+			function onWindowResize() {
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+			}
+			// 更新装
+			function updateStatus(t) {
+				wheelFL && wheelFL.rotateZ(-0.034192307692557315);
+        wheelBL && wheelBL.rotateZ(-0.034192307692557315);
+        wheelFR && wheelFR.rotateZ(-0.034192307692557315);
+        wheelBR && wheelBR.rotateZ(-0.034192307692557315);
+			}
+			function render(t) {
+				updateStatus(t * 0.001);
+				renderer.render( scene, camera );
+				requestAnimationFrame(render);
+			}
+
+
+		</script>
+
+	</body>
+</html>

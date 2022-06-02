@@ -93,14 +93,73 @@
 						} );
           const loader = new GLTFLoader().setPath( 'models/gltf/body/' );
 					loader.load( 'body.gltf', function ( gltf ) {
-              console.log(gltf);
+              console.log('body gltf', gltf);
+              const bodyBlack = gltf.scene.children[0].children[0];
+              
+              bodyBlack.material = new THREE.MeshStandardMaterial();
+              bodyBlack.material.color = {
+                isColor: true,
+                r: 0,
+                g: 0,
+                b: 0
+              }
+              bodyBlack.material.emissive = new THREE.Color( 0x000000 )
+              bodyBlack.material.roughness = 0.7
+              bodyBlack.material.metalness = 0.7
+
+              const bodySilver = gltf.scene.children[0].children[1];
+              
+              bodySilver.material = new THREE.MeshStandardMaterial();
+              bodySilver.material.color = {
+                isColor: true,
+                r: 0.7,
+                g: 0.7,
+                b: 0.7
+              }
+              bodySilver.material.emissive = new THREE.Color( 0x000000 )
+              bodySilver.material.roughness = 0.7
+              bodySilver.material.roughness = 0.7
+              bodySilver.material.metalness = 0.7
+
+
+              const glassTinted= gltf.scene.children[0].children[5];
+              glassTinted.material = new THREE.MeshStandardMaterial();
+              glassTinted.material.color = {
+                isColor: true,
+                r: 0,
+                g: 0,
+                b: 0
+              }
+              glassTinted.material.emissive = new THREE.Color( 0x000000 )
+              glassTinted.material.roughness = 0.7
+              glassTinted.material.roughness = 0.7
+              glassTinted.material.metalness = 0.7
+              new THREE.CubeTextureLoader()
+              .setPath('textures/cube/reflection/')
+              .load(['xp.jpg', 'xn.jpg', 'yp.jpg', 'yn.jpg', 'zp.jpg', 'zn.jpg'], function(texture) {
+                glassTinted.material.envMap = texture;
+              })
+
+
 							scene.add( gltf.scene );
 							render();
 
 						} );
 
-        // const directionalLight = new THREE.DirectionalLight( 0xffff00, 0.7);
-        // scene.add( directionalLight );
+        const directionalLight = new THREE.DirectionalLight( 0xbbbbbb, 1);
+        const ambientLight = new THREE.AmbientLight( 0x888888 );
+        scene.add( directionalLight );
+        scene.add( ambientLight );
+          // scene.add(new THREE.AmbientLight(0xffffff));
+					// var light = new THREE.DirectionalLight(0xffffff);
+					// light.position.set(- 10000, 10000, 10000);
+					// light.castShadow = true;
+					// light.shadow.camera.top = 10;
+					// light.shadow.camera.bottom = -10;
+					// light.shadow.camera.left = -10;
+					// light.shadow.camera.right = 10;
+					// //告诉平行光需要开启阴影投射
+					// light.castShadow = true;
 
 				renderer = new THREE.WebGLRenderer( { antialias: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
