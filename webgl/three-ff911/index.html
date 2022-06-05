@@ -36,6 +36,7 @@
 			import { RGBELoader } from './jsm/loaders/RGBELoader.js';
 
 			let camera, scene, renderer;
+			let skybox;
 			let dirLight, ambLight;
 			let wheelFL, wheelFR, wheelBL, wheelBR;
 			let brakeFL, brakeFR, brakeBL, brakeBR;
@@ -43,14 +44,47 @@
 			init();
 
 			function initLight() {
-				dirLight = new THREE.DirectionalLight(0x000000, 0.7);
+				// 漫反射-平行光
+				dirLight = new THREE.DirectionalLight(0xffffff, 0.3);
         dirLight.position.set(0, 1, 1);
         scene.add(dirLight);
-        ambLight = new THREE.AmbientLight(0x000000, 0.5);
+				// 环境光
+        ambLight = new THREE.AmbientLight(0xffffff, 0.3);
         scene.add(ambLight);
 			}
-			function initSkybox() {
-
+			function initSkybox(scene, lightcolor) {
+				// 设置skybox材质为：shaderMaterial，效果由纹理+光照决定；
+				var shaderVert = 'varying vec3 vWorldPosition;\n\nvec3 transformDirection( in vec3 dir, in mat4 matrix ) {\n\treturn normalize( ( matrix * vec4( dir, 0.0 ) ).xyz );\n}\n\nvoid main() {\n\n\tvWorldPosition = transformDirection( position, modelMatrix );\n\n\tvec3 transformed = vec3( position );\n\tvec4 mvPosition = modelViewMatrix * vec4( transformed, 1.0 );\n\n\tgl_Position = projectionMatrix * mvPosition;\n\n\tgl_Position.z = gl_Position.w; // set z to camera.far\n\n}\n';
+				var shaderFrag = '#define DARK_BLUE vec3(0.063, 0.075, 0.094)\n\nuniform samplerCube tCube;\nuniform float tFlip;\nuniform vec3 color;\n\nvarying vec3 vWorldPosition;\n\nvoid main() {\n\t// float multiColor = DARK_BLUE * light;\n\tgl_FragColor = textureCube( tCube, vec3( tFlip * vWorldPosition.x, vWorldPosition.yz ) );\n\tgl_FragColor.rgb *= color;\n}\n';
+				// TODO box大小和位置，和相机的near是否有影响，需要确认
+				var boxGeom = new THREE.BoxBufferGeometry(1, 1, 1);
+        var boxMat = new THREE.ShaderMaterial({
+            uniforms: {
+                tCube: { value: null },
+                tFlip: { value: -1 },
+                color: { value: lightcolor }
+            },
+            vertexShader: shaderVert,
+            fragmentShader: shaderFrag,
+            side: THREE.BackSide,
+            depthTest: true,
+            depthWrite: false,
+            fog: false
+        });
+        var boxMesh = new THREE.Mesh(boxGeom, boxMat);
+        // boxGeom.removeAttribute('normal');
+        // boxGeom.removeAttribute('uv');
+        scene.add(boxMesh);
+        boxMesh.onBeforeRender = function (renderer, scene, camera) {
+					// 设置box的位置为摄像机的位置
+					// 相机在三维空间中的位置是camera.matrixWorld
+					// 它的视图矩阵是相机位置矩阵的逆矩阵CameraMatrixWorldInverse
+          this.matrixWorld.copyPosition(camera.matrixWorld);
+        };
+				return {
+					boxMesh,
+					boxMat
+				}
 			}
 
 			function init() {
@@ -62,6 +96,9 @@
 				camera.position.set( 10, 3, 0 );
 
 				scene = new THREE.Scene();
+				initLight();
+				skybox = initSkybox(scene, dirLight.color);
+				
 				// FF91.Length = 5.250; // From nose to tail
     		// FF91.Width = 2.283; // From L to R mirror
     		const wheelTrack = 1.72; // L to R wheels
@@ -72,10 +109,9 @@
           .setPath('textures/cube/')
           .load(['xp.jpg', 'xn.jpg', 'yp.jpg', 'yn.jpg', 'zp.jpg', 'zn.jpg'], function(texture) {
             
-            scene.background = texture;
-						scene.environment = texture;
-
-						render();
+            // scene.background = texture;
+						// scene.environment = texture;
+						skybox.boxMat.uniforms.tCube.value = texture;
           })
 				// 车轮
 				const loader1 = new GLTFLoader().setPath( 'models/gltf/wheel/' );
@@ -155,7 +191,7 @@
 				  gltf.scene.position.set(1.56, 0, 0);
 
           const bodyBlack = gltf.scene.children[0].children[0];  
-          bodyBlack.material = new THREE.MeshStandardMaterial(
+          bodyBlack.material = new THREE.MeshLambertMaterial(
 						{
 							color: 0x222222,
             	reflectivity: 0.8,
@@ -170,26 +206,35 @@
 					});
               
           const glassTinted= gltf.scene.children[0].children[5];
-          glassTinted.material = new THREE.MeshStandardMaterial({
+          glassTinted.material = new THREE.MeshLambertMaterial({
 						color: 0x666666,
             reflectivity: 1,
 					});
-              
+					const underCarriage = gltf.scene.children[0].children[8];
+          underCarriage.material = new THREE.MeshStandardMaterial({
+						color: 0x000000
+					});
+
+					const glassTransp = gltf.scene.children[0].children[6];
+					glassTransp.material = new THREE.MeshLambertMaterial({
+            color: 0x666666,
+            reflectivity: 1.0,
+            transparent: true,
+            blending: THREE.AdditiveBlending,
+        	});
 
           new THREE.CubeTextureLoader()
             .setPath('textures/cube/reflection/')
             .load(['xp.jpg', 'xn.jpg', 'yp.jpg', 'yn.jpg', 'zp.jpg', 'zn.jpg'], function(texture) {
             	glassTinted.material.envMap = texture;
 							bodyBlack.material.envMap = texture;
+							glassTransp.material.envMap = texture;
             })
 
 
 					scene.add( gltf.scene );
 				});
 
-        
-
-				initLight();
 
 				renderer = new THREE.WebGLRenderer( { antialias: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
